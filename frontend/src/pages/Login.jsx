@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
+import Loading from "../components/Loading";
 function Login() {
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [loginData, setLoginData] = useState({
     email: "",
@@ -14,6 +16,7 @@ function Login() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const result = await axios.post(
         `${import.meta.env.VITE_BASE_URL}/users/login`,
@@ -24,12 +27,14 @@ function Login() {
         navigate("/");
         toast.success(result.data.message);
       }
-      console.log(result.data, "user");
+      setLoading(false);
     } catch (error) {
       toast.error(error.response.data.message);
       console.log(error);
+      setLoading(false);
     }
   };
+  if (loading) return <Loading />;
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       <div className="bg-white text-gray-500 max-w-96 mx-4 md:p-6 p-4 text-left text-sm rounded-xl shadow-[0px_0px_10px_0px] shadow-black/10">
