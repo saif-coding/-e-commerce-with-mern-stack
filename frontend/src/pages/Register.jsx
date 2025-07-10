@@ -90,7 +90,7 @@ function Register() {
         <p className="text-center mt-4">
           Already have an account?
           <Link to={"/login"} href="#" className="text-blue-500 underline ml-2">
-            Signup
+            Login
           </Link>
         </p>
 

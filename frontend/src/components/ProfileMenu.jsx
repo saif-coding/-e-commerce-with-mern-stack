@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { MdDashboard } from "react-icons/md";
 import { FaBoxOpen } from "react-icons/fa";
 import { FiLogOut } from "react-icons/fi";
+import { FaUser } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "react-toastify";
 const ProfileMenu = () => {
@@ -33,6 +34,13 @@ const ProfileMenu = () => {
       {/* Dropdown menu */}
       <div className="absolute right-0 mt-2 border border-gray-300 w-40 bg-white rounded-md shadow-lg opacity-0 group-hover:opacity-100 invisible group-hover:visible transition duration-200 z-50">
         <ul className="py-2 text-sm ml-3 text-gray-700">
+          <Link
+            to={"/profile"}
+            className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer transition-colors"
+          >
+            <FaUser className="text-gray-500 group-hover:text-blue-600" />
+            <span className="hover:text-blue-600">Profile</span>
+          </Link>
           <Link
             to={"/dashboard"}
             className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer transition-colors"

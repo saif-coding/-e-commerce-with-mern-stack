@@ -72,5 +72,57 @@ const userLogout = async (req, res) => {
   }
 };
 
-const getAllUser = async (req, res) => {};
-module.exports = { userRegister, userLogin, userLogout, getAllUser };
+const getAllUser = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const users = await UserModel.find().select("-password");
+    if (!users) {
+      return res.status(400).json({ message: "users not found" });
+    }
+    res.status(200).json(users);
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+const getSingleUser = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+    const user = await UserModel.findById(userId).select("-password");
+    if (!user) {
+      return res.status(200).json({ message: "user not found" });
+    }
+    return res.status(200).json(user);
+  } catch (error) {
+    console.log("Error getting user:", error.message);
+    res.status(500).json({ message: "Server error while getting user" });
+  }
+};
+
+const userUpdate = async (req, res) => {
+  try {
+    const { name, email } = req.body;
+    const { id } = req.params;
+    const update = await UserModel.findByIdAndUpdate(
+      id,
+      {
+        name,
+        email,
+      },
+      { new: true }
+    );
+    res.status(200).json({ message: "user update successfully ", update });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "user updating issue" });
+  }
+};
+
+module.exports = {
+  userRegister,
+  userLogin,
+  userLogout,
+  getAllUser,
+  getSingleUser,
+  userUpdate,
+};

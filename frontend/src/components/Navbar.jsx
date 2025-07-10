@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import ProfileMenu from "./ProfileMenu";
+import { IoClose } from "react-icons/io5";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -71,10 +72,16 @@ function Navbar() {
         </div>
 
         <Link to={"/login"}>
-          <button className="cursor-pointer px-8 py-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full">
+          <button className="cursor-pointer px-5 py-1 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full">
             Login
           </button>
         </Link>
+        <Link to={"/register"}>
+          <button className="cursor-pointer px-5 py-1 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full">
+            SignUp
+          </button>
+        </Link>
+
         <div className="cursor-pointer flex items-center justify-center w-10 h-10 bg-gray-500 hover:bg-gray-600 transition rounded-full">
           <ProfileMenu />
         </div>
@@ -86,17 +93,28 @@ function Navbar() {
         className="sm:hidden"
       >
         {/* Menu Icon SVG */}
-        <svg
-          width="21"
-          height="15"
-          viewBox="0 0 21 15"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <rect width="21" height="1.5" rx=".75" fill="#426287" />
-          <rect x="8" y="6" width="13" height="1.5" rx=".75" fill="#426287" />
-          <rect x="6" y="13" width="15" height="1.5" rx=".75" fill="#426287" />
-        </svg>
+        {open ? (
+          <IoClose className=" text-2xl font-bold" />
+        ) : (
+          <svg
+            width="21"
+            height="15"
+            viewBox="0 0 21 15"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <rect width="21" height="1.5" rx=".75" fill="#426287" />
+            <rect x="8" y="6" width="13" height="1.5" rx=".75" fill="#426287" />
+            <rect
+              x="6"
+              y="13"
+              width="15"
+              height="1.5"
+              rx=".75"
+              fill="#426287"
+            />
+          </svg>
+        )}
       </button>
 
       {/* Mobile Menu */}
@@ -105,18 +123,25 @@ function Navbar() {
           open ? "flex" : "hidden"
         } absolute top-[60px] left-0 w-full bg-white shadow-md py-4 flex-col items-start gap-2 px-5 text-sm md:hidden`}
       >
-        <a href="#" className="block">
+        <Link to={"/"} className="block">
           Home
-        </a>
-        <a href="#" className="block">
+        </Link>
+        <Link to={"/about"} className="block">
           About
-        </a>
-        <a href="#" className="block">
+        </Link>
+        <Link to={"/contact"} className="block">
           Contact
-        </a>
-        <button className="cursor-pointer px-6 py-2 mt-2 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full text-sm">
-          Login
-        </button>
+        </Link>
+        <Link to={"/login"}>
+          <button className="cursor-pointer px-5 py-1 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full">
+            Login
+          </button>
+        </Link>
+        <Link to={"/register"}>
+          <button className="cursor-pointer px-5 py-1 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full">
+            SignUp
+          </button>
+        </Link>
       </div>
     </nav>
   );
