@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import ProfileMenu from "./ProfileMenu";
 import { IoClose } from "react-icons/io5";
+import { UserContext } from "./../context/UserContext";
 
 function Navbar() {
+  const { singleUser } = useContext(UserContext);
   const [open, setOpen] = useState(false);
   return (
     <nav className="flex items-center justify-between px-6 md:px-16 lg:px-24 xl:px-32 py-4 border-b border-gray-300 bg-white relative transition-all">
@@ -71,16 +73,26 @@ function Navbar() {
           </button>
         </div>
 
-        <Link to={"/login"}>
-          <button className="cursor-pointer px-5 py-1 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full">
-            Login
-          </button>
-        </Link>
-        <Link to={"/register"}>
-          <button className="cursor-pointer px-5 py-1 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full">
-            SignUp
-          </button>
-        </Link>
+        {singleUser._id ? (
+          <Link to={"/dashboard"}>
+            <button className="cursor-pointer px-5 py-1 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full">
+              Dashboard
+            </button>
+          </Link>
+        ) : (
+          <>
+            <Link to={"/login"}>
+              <button className="cursor-pointer px-5 py-1 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full">
+                Login
+              </button>
+            </Link>
+            <Link to={"/register"}>
+              <button className="cursor-pointer px-5 py-1 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full">
+                SignUp
+              </button>
+            </Link>
+          </>
+        )}
 
         <div className="cursor-pointer flex items-center justify-center w-10 h-10 bg-gray-500 hover:bg-gray-600 transition rounded-full">
           <ProfileMenu />

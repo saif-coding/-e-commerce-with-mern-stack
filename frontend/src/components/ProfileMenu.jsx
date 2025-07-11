@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { MdDashboard } from "react-icons/md";
 import { FaBoxOpen } from "react-icons/fa";
@@ -6,8 +6,11 @@ import { FiLogOut } from "react-icons/fi";
 import { FaUser } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { UserContext } from "../context/UserContext";
 const ProfileMenu = () => {
+  const { setSingleUser } = useContext(UserContext);
   const navigate = useNavigate();
+
   const logout = async () => {
     try {
       const result = axios.post(
@@ -17,6 +20,7 @@ const ProfileMenu = () => {
       );
       if ((await result).status === 200) {
         toast.success((await result).data.message);
+        setSingleUser("");
         navigate("/login");
       }
     } catch (error) {

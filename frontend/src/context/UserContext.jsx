@@ -33,7 +33,9 @@ function UserContextProvider({ children }) {
   }, []);
 
   return (
-    <UserContext.Provider value={{ allUsers, singleUser,getSingleUser }}>
+    <UserContext.Provider
+      value={{ allUsers, singleUser, setSingleUser, getSingleUser }}
+    >
       {children}
     </UserContext.Provider>
   );

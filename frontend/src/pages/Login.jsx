@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import Loading from "../components/Loading";
+import { UserContext } from "../context/UserContext";
 function Login() {
+  const { getSingleUser } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [loginData, setLoginData] = useState({
@@ -27,6 +29,7 @@ function Login() {
         navigate("/");
         toast.success(result.data.message);
       }
+      await getSingleUser();
       setLoading(false);
     } catch (error) {
       toast.error(error.response.data.message);
