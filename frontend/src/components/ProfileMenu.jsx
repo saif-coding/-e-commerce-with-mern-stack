@@ -8,7 +8,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { UserContext } from "../context/UserContext";
 const ProfileMenu = () => {
-  const { setSingleUser } = useContext(UserContext);
+  const { setSingleUser, singleUser } = useContext(UserContext);
   const navigate = useNavigate();
 
   const logout = async () => {
@@ -32,7 +32,7 @@ const ProfileMenu = () => {
     <div className="relative group inline-block text-left">
       {/* Profile Avatar or Name */}
       <div className="cursor-pointer flex items-center text-white justify-center w-10 h-10 bg-gray-800 hover:bg-gray-600 transition rounded-full">
-        M
+        <h1 className=" text-2xl font-semibold">{singleUser.name.slice(0, 1)}</h1>
       </div>
 
       {/* Dropdown menu */}
