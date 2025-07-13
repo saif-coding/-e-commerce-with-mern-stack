@@ -32,7 +32,9 @@ const ProfileMenu = () => {
     <div className="relative group inline-block text-left">
       {/* Profile Avatar or Name */}
       <div className="cursor-pointer flex items-center text-white justify-center w-10 h-10 bg-gray-800 hover:bg-gray-600 transition rounded-full">
-        <h1 className=" text-2xl font-semibold">{singleUser.name.slice(0, 1)}</h1>
+        <h1 className=" text-2xl font-semibold">
+          {singleUser?.name?.slice(0, 1)}
+        </h1>
       </div>
 
       {/* Dropdown menu */}

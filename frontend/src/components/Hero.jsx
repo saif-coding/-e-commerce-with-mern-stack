@@ -7,7 +7,7 @@ import {
   FaChevronDown,
   FaChevronUp,
 } from "react-icons/fa";
-import HeroImage from "../../public/images/malee.png";
+import HeroImage from "../assets/images/malee.png";
 
 function Hero() {
   return (
@@ -22,7 +22,7 @@ function Hero() {
             <p className="mt-6 text-gray-600 text-base md:text-lg max-w-md mx-auto lg:mx-0">
               Discover our handpicked collections that blend contemporary trends
               with classic craftsmanship. Whether you’re dressing for work,
-              weekends, or unforgettable moments, 
+              weekends, or unforgettable moments,
             </p>
             <button className="mt-8 px-6 py-3 bg-black text-white font-semibold rounded-lg shadow hover:bg-gray-900 transition">
               SHOP NOW
