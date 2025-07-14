@@ -5,6 +5,7 @@ const dotenv = require("dotenv");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const UserRoutes = require("./routes/userRoutes");
+const productRoutes = require("./routes/productRoutes");
 dotenv.config();
 connectDB();
 app.use(express.json());
@@ -17,6 +18,7 @@ app.use(
 app.use(cookieParser());
 
 app.use("/users", UserRoutes);
+app.use("/products", productRoutes);
 
 const port = 3000;
 app.listen(port, () => console.log(`server is running on port ${port}`));
