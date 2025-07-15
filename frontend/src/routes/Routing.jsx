@@ -8,7 +8,9 @@ import UserUpdate from "../pages/UserUpdate";
 import Dashboard from "../pages/Dashboard";
 import AdminProducts from "../components/AdminProducts";
 import AddProduct from "../components/AddProduct";
-import OrdersList from './../components/OrdersList';
+import OrdersList from "./../components/OrdersList";
+import AllProducts from "../pages/AllProducts";
+import ProductDetails from "../pages/ProductDetails";
 function Routing() {
   return (
     <Routes>
@@ -17,6 +19,8 @@ function Routing() {
       <Route path="/login" element={<Login />} />
       <Route path="/profile" element={<UserProfile />} />
       <Route path="/update/:id" element={<UserUpdate />} />
+      <Route path="/all-products" element={<AllProducts />} />
+      <Route path="/product-details/:slug" element={<ProductDetails />} />
       <Route path="/dashboard" element={<Dashboard />}>
         <Route path="/dashboard/productlist" element={<AdminProducts />} />
         <Route path="/dashboard/addproduct" element={<AddProduct />} />

@@ -19,6 +19,7 @@ function Navbar() {
       {/* Desktop Menu */}
       <div className="hidden sm:flex items-center gap-8">
         <Link to={"/"}>Home</Link>
+        <Link to={"/all-products"}>All Products</Link>
         <a href="#">About</a>
         <a href="#">Contact</a>
 

@@ -1,17 +1,22 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
+import Loading from "../components/Loading";
+import { ProductContext } from "../context/ProductContext";
 function AddProduct() {
+  const { getAllProducts } = useContext(ProductContext);
+  const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const [productName, setProductName] = useState("");
   const [productDescription, setProductDescription] = useState("");
   const [category, setCategory] = useState("");
   const [productPrice, setProductPrice] = useState("");
   const [offerPrice, setOfferPrice] = useState("");
   const [images, setImages] = useState([null, null, null, null]); // for 4 images
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     const formData = new FormData();
     formData.append("title", productName);
     formData.append("description", productDescription);
@@ -25,19 +30,26 @@ function AddProduct() {
       }
     });
 
-    console.log(formData, "added");
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_BASE_URL}/products/add`,
-        formData
+        formData,
+        { withCredentials: true }
       );
-      toast.success(res.data.message);
-      console.log("Product created:", res.data);
+      if (res.status === 201) {
+        toast.success(res.data.message);
+        await getAllProducts();
+        navigate("/dashboard/productlist");
+      }
+      setLoading(false);
     } catch (error) {
+      setLoading(false);
       console.error("Error:", error);
       toast.error(error.response.data.message);
     }
   };
+
+  if (loading) return <Loading />;
 
   return (
     <div className="flex flex-col justify-between bg-white">
@@ -121,6 +133,7 @@ function AddProduct() {
               { name: "Electronics" },
               { name: "Clothing" },
               { name: "Accessories" },
+              { name: "Shoes" },
             ].map((item, index) => (
               <option key={index} value={item.name}>
                 {item.name}
