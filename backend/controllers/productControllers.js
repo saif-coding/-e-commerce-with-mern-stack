@@ -52,4 +52,37 @@ const getSingleProduct = async (req, res) => {
   }
 };
 
-module.exports = { addProduct, getAllProducts, getSingleProduct };
+const updateProdcut = async (req, res) => {
+  try {
+    const { title, description, category, productPrice, offerPrice } = req.body;
+    const id = req.params.id;
+    const images = await Promise.all(
+      req.files.map(async (file) => {
+        const result = await uploadCloudinary(file.path);
+        return result;
+      })
+    );
+    const update = await ProductModel.findByIdAndUpdate(
+      id,
+      {
+        title,
+        description,
+        category,
+        productPrice,
+        offerPrice,
+        images: images,
+      },
+      { new: true }
+    );
+    res.status(201).json({ message: "prodcut updated successfully", update });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "error of update post" });
+  }
+};
+module.exports = {
+  addProduct,
+  getAllProducts,
+  getSingleProduct,
+  updateProdcut,
+};

@@ -1,8 +1,22 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { ProductContext } from "../context/ProductContext";
+import { FaEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
+import DeletePopup from "../components/DeletePopup";
+import { useNavigate,  } from "react-router-dom";
 function AdminProducts() {
+  
   const { allProductsData } = useContext(ProductContext);
+  const [showDelete, setShowDelete] = useState(false);
+  const navigate = useNavigate();
 
+  const handleUpdateDetails = (title, id) => {
+    // You can add any logic here (e.g., logging, validation)
+    const slug = title.toLowerCase().replace(/\s+/g, "-");
+    navigate(`/product-update/${slug}`, {
+      state: { productId: id },
+    });
+  };
   return (
     <div className="flex-1 flex flex-col justify-between">
       <div className="w-full md:p-10 p-4">
@@ -17,6 +31,7 @@ function AdminProducts() {
                   Selling Price
                 </th>
                 <th className="px-4 py-3 font-semibold truncate">In Stock</th>
+                <th className="px-4 py-3 font-semibold truncate">Actions</th>
               </tr>
             </thead>
             <tbody className="text-sm text-gray-500">
@@ -48,6 +63,24 @@ function AdminProducts() {
                       <div className="w-12 h-7 bg-slate-300 rounded-full peer peer-checked:bg-blue-600 transition-colors duration-200"></div>
                       <span className="dot absolute left-1 top-1 w-5 h-5 bg-white rounded-full transition-transform duration-200 ease-in-out peer-checked:translate-x-5"></span>
                     </label>
+                  </td>
+
+                  <td className="px-4 py-3">
+                    <td
+                      onClick={() =>
+                        handleUpdateDetails(product.title, product._id)
+                      }
+                      className=" text-2xl pr-3 text-[#6366F1]"
+                    >
+                      <FaEdit />
+                    </td>
+                    <td
+                      onClick={() => setShowDelete(!showDelete)}
+                      className=" text-2xl text-red-500"
+                    >
+                      <MdDelete />
+                    </td>
+                    {showDelete && <DeletePopup pro={setShowDelete} />}
                   </td>
                 </tr>
               ))}
