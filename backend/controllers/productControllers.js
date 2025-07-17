@@ -27,7 +27,6 @@ const addProduct = async (req, res) => {
   }
 };
 
-// GET /products
 const getAllProducts = async (req, res) => {
   try {
     const products = await ProductModel.find().sort({ createdAt: -1 }); // Fetch all products
@@ -80,9 +79,26 @@ const updateProdcut = async (req, res) => {
     return res.status(500).json({ message: "error of update post" });
   }
 };
+
+const deleteProduct = async (req, res) => {
+  try {
+    const id = req.params.id;
+    const deleteProduct = await ProductModel.findByIdAndDelete(id);
+    if (!deleteProduct) {
+      return res.status(404).json({ message: "product not found" });
+    }
+    res
+      .status(200)
+      .json({ message: "Prodcut deleted successfully", deleteProduct });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ message: "error of deleting product" });
+  }
+};
 module.exports = {
   addProduct,
   getAllProducts,
   getSingleProduct,
   updateProdcut,
+  deleteProduct,
 };

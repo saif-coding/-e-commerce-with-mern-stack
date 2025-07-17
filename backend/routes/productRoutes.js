@@ -4,6 +4,7 @@ const {
   getAllProducts,
   getSingleProduct,
   updateProdcut,
+  deleteProduct,
 } = require("../controllers/productControllers");
 const varifyToken = require("../middlewares/varifyToken");
 const upload = require("../middlewares/multer");
@@ -18,5 +19,6 @@ productRoutes.post(
   varifyToken,
   updateProdcut
 );
+productRoutes.delete("/delete/:id", varifyToken, deleteProduct);
 
 module.exports = productRoutes;

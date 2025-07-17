@@ -3,9 +3,8 @@ import { ProductContext } from "../context/ProductContext";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import DeletePopup from "../components/DeletePopup";
-import { useNavigate,  } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 function AdminProducts() {
-  
   const { allProductsData } = useContext(ProductContext);
   const [showDelete, setShowDelete] = useState(false);
   const navigate = useNavigate();
@@ -80,7 +79,9 @@ function AdminProducts() {
                     >
                       <MdDelete />
                     </td>
-                    {showDelete && <DeletePopup pro={setShowDelete} />}
+                    {showDelete && (
+                      <DeletePopup pro={setShowDelete} id={product._id} />
+                    )}
                   </td>
                 </tr>
               ))}

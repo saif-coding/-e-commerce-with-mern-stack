@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import ReletedProduct from "../components/ReletedProduct";
+
 function ProductDetails() {
   const product = {
     name: "Nike Pegasus 41 shoes",
@@ -46,6 +47,7 @@ function ProductDetails() {
       setThumbnail(singleProduct.images[0]);
     }
   }, [singleProduct]);
+  if (!singleProduct) return <p className=" text-2xl font-bold">Loading...</p>;
 
   return (
     <>

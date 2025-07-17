@@ -3,7 +3,8 @@ import axios from "axios";
 export const ProductContext = createContext();
 function ProductContextProvider({ children }) {
   const [allProductsData, setAllProductsData] = useState([]);
-
+  const [search, setSearch] = useState("");
+  console.log(search);
   const getAllProducts = async () => {
     try {
       const result = await axios.get(
@@ -21,7 +22,9 @@ function ProductContextProvider({ children }) {
   }, []);
 
   return (
-    <ProductContext.Provider value={{ allProductsData, getAllProducts }}>
+    <ProductContext.Provider
+      value={{ allProductsData, getAllProducts, setSearch, search }}
+    >
       {children}
     </ProductContext.Provider>
   );

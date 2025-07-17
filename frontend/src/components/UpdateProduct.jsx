@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect } from "react";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useNavigate, useLocation, useParams } from "react-router-dom";
+import { useNavigate, useLocation, useParams, Link } from "react-router-dom";
 import Loading from "../components/Loading";
 import { ProductContext } from "../context/ProductContext";
 
@@ -11,6 +11,7 @@ function UpdateProduct() {
   const id = location.state.productId;
   const { getAllProducts, allProductsData } = useContext(ProductContext);
   const navigate = useNavigate();
+
   const [loading, setLoading] = useState(false);
   const [productName, setProductName] = useState("");
   const [productDescription, setProductDescription] = useState("");
@@ -19,6 +20,7 @@ function UpdateProduct() {
   const [offerPrice, setOfferPrice] = useState("");
   const [images, setImages] = useState([null, null, null, null]); // for 4 images
   const [imageError, setImageError] = useState();
+
   const filterProducts = allProductsData.find((product) => product._id === id);
   useEffect(() => {
     if (filterProducts) {
@@ -41,7 +43,6 @@ function UpdateProduct() {
       setLoading(false); // ❗ Important: stop loading
       return;
     }
-
     setImageError(""); // ✅ Clear error if validation passes
 
     // ✅ Prepare form data
@@ -81,9 +82,37 @@ function UpdateProduct() {
   if (loading) return <Loading />;
 
   return (
-    <div className="flex flex-col justify-between bg-white">
-      <form onSubmit={handleSubmit} className="md:p-10 p-4 space-y-5 max-w-lg">
-        <h1>Update Products</h1>
+    <div className="flex flex-col justify-between bg-black/30 p-6">
+      <form
+        onSubmit={handleSubmit}
+        className="md:p-10 p-4 bg-white space-y-5 mx-auto max-w-lg"
+      >
+        <div className="flex items-center justify-between">
+          <h1 className=" text-2xl font-bold">Update Details</h1>
+          <Link to={"/dashboard/productlist"}>
+            <button
+              type="button"
+              className="flex items-center gap-2.5 border border-gray-500/30 px-4 py-2 text-sm text-gray-800 rounded bg-white hover:text-pink-500/70 hover:bg-pink-500/10 hover:border-pink-500/30 active:scale-95 transition"
+            >
+              <svg
+                width="16"
+                height="13"
+                viewBox="0 0 16 13"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M15 6.5H1M6.5 12 1 6.5 6.5 1"
+                  stroke="#FDA4AF"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+              Back
+            </button>{" "}
+          </Link>
+        </div>
         <div>
           <p className="text-base font-medium">Product Image</p>
           {imageError && (
@@ -206,7 +235,7 @@ function UpdateProduct() {
           </div>
         </div>
         <button className="px-8 py-2.5 bg-indigo-500 text-white font-medium rounded">
-          ADD
+          Update
         </button>
       </form>
     </div>

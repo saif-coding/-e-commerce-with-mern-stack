@@ -1,12 +1,17 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { ProductContext } from "./../context/ProductContext";
 import { Link } from "react-router-dom";
 
 function AllProducts() {
-  const { allProductsData } = useContext(ProductContext);
+  const { allProductsData, search } = useContext(ProductContext);
+  const [filteredProducts, setFilteredProducts] = useState([]);
 
-  // const slugify = (title) => title.toLowerCase().replace(/\s+/g, "-");
-
+  useEffect(() => {
+    const result = allProductsData.filter((pro) =>
+      pro?.title?.toLowerCase().includes(search?.toLowerCase())
+    );
+    setFilteredProducts(result);
+  }, [allProductsData, search]);
   return (
     <div className="w-full px-4 py-10 bg-gray-50">
       <h1 className="text-3xl font-medium text-slate-800 text-center mb-2 font-poppins">
@@ -17,48 +22,54 @@ function AllProducts() {
       </p>{" "}
       <div className="max-w-5xl mx-auto">
         <div className=" gap-y-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 justify-items-center">
-          {allProductsData.map((item) => (
-            <div
-              key={item._id}
-              className="flex flex-col bg-white border border-gray-500 shadow-md rounded-2xl p-2 w-72"
-            >
-              <img
-                className="w-72 h-48 object-cover rounded-2xl"
-                src={item.images[0]}
-                alt="image"
-              />
-              <div className="p-4 text-sm">
-                <div className="flex items-center gap-3">
-                  <span className="text-lg font-semibold line-through text-red-400">
-                    ${item.productPrice}
-                  </span>
-                  <span className="text-2xl font-bold text-green-600">
-                    ${item.offerPrice}
-                  </span>
-                </div>
-                <p className="text-slate-800 text-base font-medium my-1.5">
-                  {item.title.slice(0, 24)}
-                </p>
-                <p className="text-slate-500">
-                  {item.description.slice(0, 100)}
-                </p>
-                <div className="grid grid-cols-2 gap-2 mt-3">
-                  <Link
-                    to={`/product-details/${item.title
-                      .toLowerCase()
-                      .replace(/\s+/g, "-")}`}
-                    state={{ productId: item._id }}
-                    className="bg-slate-200 hover:bg-slate-400 hover:text-white rounded-lg cursor-pointer text-black py-2 text-center"
-                  >
-                    View Details
-                  </Link>
-                  <button className="hover:bg-slate-600 bg-slate-950 rounded-lg cursor-pointer text-white py-2">
-                    Add to cart
-                  </button>
+          {filteredProducts.length > 0 ? (
+            filteredProducts.map((item) => (
+              <div
+                key={item._id}
+                className="flex flex-col bg-white border border-gray-500 shadow-md rounded-2xl p-2 w-72"
+              >
+                <img
+                  className="w-72 h-48 object-cover rounded-2xl"
+                  src={item.images[0]}
+                  alt="image"
+                />
+                <div className="p-4 text-sm">
+                  <div className="flex items-center gap-3">
+                    <span className="text-lg font-semibold line-through text-red-400">
+                      ${item.productPrice}
+                    </span>
+                    <span className="text-2xl font-bold text-green-600">
+                      ${item.offerPrice}
+                    </span>
+                  </div>
+                  <p className="text-slate-800 text-base font-medium my-1.5">
+                    {item.title.slice(0, 24)}
+                  </p>
+                  <p className="text-slate-500">
+                    {item.description.slice(0, 100)}
+                  </p>
+                  <div className="grid grid-cols-2 gap-2 mt-3">
+                    <Link
+                      to={`/product-details/${item.title
+                        .toLowerCase()
+                        .replace(/\s+/g, "-")}`}
+                      state={{ productId: item._id }}
+                      className="bg-slate-200 hover:bg-slate-400 hover:text-white rounded-lg cursor-pointer text-black py-2 text-center"
+                    >
+                      View Details
+                    </Link>
+                    <button className="hover:bg-slate-600 bg-slate-950 rounded-lg cursor-pointer text-white py-2">
+                      Add to cart
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p className="text-red-500 col-span-full text-2xl font-bold text-center">
+              No products found.
+            </p>
+          )}
         </div>
       </div>
     </div>

@@ -1,6 +1,27 @@
-import React from "react";
-
-function DeletePopup({ pro }) {
+import React, { useContext } from "react";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { ProductContext } from "../context/ProductContext";
+import { useNavigate } from "react-router-dom";
+function DeletePopup({ pro, id }) {
+  const navigate = useNavigate();
+  const { getAllProducts } = useContext(ProductContext);
+  const deleteProduct = async () => {
+    try {
+      const result = await axios.delete(
+        `${import.meta.env.VITE_BASE_URL}/products/delete/${id}`,
+        { withCredentials: true }
+      );
+      if (result.status === 200) {
+        toast.success(result.data.message);
+        await getAllProducts();
+        navigate("/dashboard/productlist");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  };
   return (
     <div className="absolute bg-black/60 top-0 left-0 w-full h-screen">
       <div class="flex flex-col items-center  absolute top-20 right-32 bg-white shadow-md rounded-xl py-6 px-5 md:w-[460px] w-[370px] border border-gray-300">
@@ -34,6 +55,7 @@ function DeletePopup({ pro }) {
             Cancel
           </button>
           <button
+            onClick={() => deleteProduct()}
             type="button"
             class="w-full md:w-36 h-10 rounded-md text-white bg-red-600 font-medium text-sm hover:bg-red-700 active:scale-95 transition"
           >
