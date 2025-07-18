@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { useNavigate, useLocation, useParams, Link } from "react-router-dom";
 import Loading from "../components/Loading";
 import { ProductContext } from "../context/ProductContext";
+import { FaArrowAltCircleLeft } from "react-icons/fa";
 
 function UpdateProduct() {
   const { title } = useParams();
@@ -92,23 +93,9 @@ function UpdateProduct() {
           <Link to={"/dashboard/productlist"}>
             <button
               type="button"
-              className="flex items-center gap-2.5 border border-gray-500/30 px-4 py-2 text-sm text-gray-800 rounded bg-white hover:text-pink-500/70 hover:bg-pink-500/10 hover:border-pink-500/30 active:scale-95 transition"
+              className="flex items-center gap-2.5 border  px-4 py-2 text-sm text-white rounded bg-[#4F39F6] hover:bg-[#6366F1] active:scale-95 transition"
             >
-              <svg
-                width="16"
-                height="13"
-                viewBox="0 0 16 13"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  d="M15 6.5H1M6.5 12 1 6.5 6.5 1"
-                  stroke="#FDA4AF"
-                  strokeWidth="1.5"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
+              <FaArrowAltCircleLeft className=" text-xl" />
               Back
             </button>{" "}
           </Link>
