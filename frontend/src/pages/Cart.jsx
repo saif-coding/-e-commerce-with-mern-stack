@@ -27,6 +27,40 @@ function Cart() {
       toast.error(error.response.data.message);
     }
   };
+
+  const increaseQuantity = async (productId) => {
+    try {
+      const result = await axios.put(
+        `${import.meta.env.VITE_BASE_URL}/carts/upper`,
+        { productId },
+        { withCredentials: true }
+      );
+      if (result.status === 200) {
+        toast.success(result.data.message);
+        await getAllCart();
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  };
+
+  const removeProductFromCart = async (productId) => {
+    try {
+      const result = await axios.put(
+        `${import.meta.env.VITE_BASE_URL}/carts/remove`,
+        { productId },
+        { withCredentials: true }
+      );
+      if (result.status === 200) {
+        toast.success(result.data.message);
+        await getAllCart();
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  };
   useEffect(() => {
     getAllCart();
   }, [id]);
@@ -78,8 +112,10 @@ function Cart() {
                           >
                             <FaMinusCircle />
                           </h1>
-                          <p>{item.productId._id}</p>
-                          <h1 className=" text-[#4F39F6]">
+                          <h1
+                            onClick={() => increaseQuantity(item.productId._id)}
+                            className=" text-[#4F39F6]"
+                          >
                             <FaPlusCircle />
                           </h1>
                         </div>
@@ -90,7 +126,10 @@ function Cart() {
                 <p className="text-center">
                   ${item.productId.offerPrice * item.quantity}
                 </p>
-                <button className="cursor-pointer mx-auto">
+                <button
+                  onClick={() => removeProductFromCart(item.productId._id)}
+                  className="cursor-pointer mx-auto"
+                >
                   <svg
                     width="20"
                     height="20"
