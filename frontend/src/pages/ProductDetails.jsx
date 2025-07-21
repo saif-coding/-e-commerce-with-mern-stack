@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import ReletedProduct from "../components/ReletedProduct";
+import Reviews from "../components/Reviews";
 
 function ProductDetails() {
   const product = {
@@ -22,6 +23,8 @@ function ProductDetails() {
       "Available in different sizes",
     ],
   };
+
+  const [showPopup, setShowPopup] = useState(false);
   const [singleProduct, setSingleProduct] = useState([]);
   const [thumbnail, setThumbnail] = useState(null);
   const { title } = useParams(); // get the title from URL
@@ -78,7 +81,7 @@ function ProductDetails() {
           <div className="text-sm w-full md:w-1/2">
             <h1 className="text-3xl font-medium">{singleProduct.title}</h1>
 
-            <div className="flex items-center gap-0.5 mt-1">
+            <div className="flex items-center gap-0.5 mt-3">
               {Array(5)
                 .fill("")
                 .map((_, i) =>
@@ -113,9 +116,16 @@ function ProductDetails() {
                   )
                 )}
               <p className="text-base ml-2">({product.rating})</p>
+              <button
+                onClick={() => setShowPopup(!showPopup)}
+                type="button"
+                class="px-4 py-1.5 capitalize ml-12 active:scale-95 transition bg-blue-500 rounded text-white shadow-lg shadow-blue-500/30 text-sm font-medium"
+              >
+                add review
+              </button>
             </div>
 
-            <div className="mt-6">
+            <div className="mt-3">
               <p className="text-gray-500/70 line-through">
                 MRP: ${singleProduct.productPrice}
               </p>
@@ -139,6 +149,7 @@ function ProductDetails() {
               </button>
             </div>
           </div>
+          {showPopup && <Reviews id={productId} popup={setShowPopup} />}
         </div>
       </div>
       <ReletedProduct cate={singleProduct.category} />
