@@ -3,6 +3,9 @@ import { useLocation, useParams } from "react-router-dom";
 import axios from "axios";
 import ReletedProduct from "../components/ReletedProduct";
 import Reviews from "../components/Reviews";
+import { useContext } from "react";
+import { ProductContext } from "../context/ProductContext";
+import ShowAllReviews from "../components/ShowAllReviews";
 
 function ProductDetails() {
   const product = {
@@ -23,11 +26,11 @@ function ProductDetails() {
       "Available in different sizes",
     ],
   };
-
+  const { reviewsData, getReviews } = useContext(ProductContext);
   const [showPopup, setShowPopup] = useState(false);
   const [singleProduct, setSingleProduct] = useState([]);
   const [thumbnail, setThumbnail] = useState(null);
-  const { title } = useParams(); // get the title from URL
+  const { slug } = useParams(); // get the title from URL
   const location = useLocation();
   const productId = location.state?.productId; // get the id from state
   const getSingle = async () => {
@@ -41,8 +44,10 @@ function ProductDetails() {
       console.log(error);
     }
   };
+
   useEffect(() => {
     getSingle();
+    getReviews(productId);
   }, [productId]);
 
   useEffect(() => {
@@ -115,7 +120,9 @@ function ProductDetails() {
                     </svg>
                   )
                 )}
-              <p className="text-base ml-2">({product.rating})</p>
+              <p className="text-base ml-2">({reviewsData.length})</p>
+
+              <h1>{}</h1>
               <button
                 onClick={() => setShowPopup(!showPopup)}
                 type="button"
@@ -152,6 +159,7 @@ function ProductDetails() {
           {showPopup && <Reviews id={productId} popup={setShowPopup} />}
         </div>
       </div>
+      <ShowAllReviews title={slug} id={productId} />
       <ReletedProduct cate={singleProduct.category} />
     </>
   );

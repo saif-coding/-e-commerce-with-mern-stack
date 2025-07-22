@@ -5,7 +5,8 @@ function ProductContextProvider({ children }) {
   const [allProductsData, setAllProductsData] = useState([]);
   const [search, setSearch] = useState("");
   const [userCart, setUserCart] = useState([]);
-
+  const [reviewsData, setReviewsData] = useState([]);
+  const [oneRevie, setOneRevie] = useState([]);
   const getAllProducts = async () => {
     try {
       const result = await axios.get(
@@ -30,9 +31,23 @@ function ProductContextProvider({ children }) {
     }
   };
 
+  const getReviews = async (productId) => {
+    try {
+      const result = await axios.get(
+        `${import.meta.env.VITE_BASE_URL}/reviews/get/${productId}`,
+        { withCredentials: true }
+      );
+      setReviewsData(result.data);
+      setOneRevie(result.data.slice(0, 1));
+      console.log(result.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   useEffect(() => {
     getAllProducts();
     getAllCart();
+    getReviews();
   }, []);
 
   return (
@@ -45,6 +60,11 @@ function ProductContextProvider({ children }) {
         userCart,
         setUserCart,
         getAllCart,
+        setReviewsData,
+        reviewsData,
+        getReviews,
+        oneRevie,
+        setOneRevie,
       }}
     >
       {children}

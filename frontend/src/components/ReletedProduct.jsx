@@ -22,8 +22,8 @@ function ReletedProduct({ cate }) {
       </p>{" "}
       <div className="max-w-5xl mx-auto">
         <div className=" gap-y-4 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 justify-items-center">
-          {reletedData.map((product) => (
-            <div className="flex flex-col bg-white border border-gray-500 shadow-md rounded-2xl p-2 w-72">
+          {reletedData.map((product,index) => (
+            <div key={index} className="flex flex-col bg-white border border-gray-500 shadow-md rounded-2xl p-2 w-72">
               <img
                 className="w-72 h-48 object-cover rounded-2xl"
                 src={product.images[0]}

@@ -13,6 +13,7 @@ import AllProducts from "../pages/AllProducts";
 import ProductDetails from "../pages/ProductDetails";
 import UpdateProduct from "../components/UpdateProduct";
 import Cart from "../pages/Cart";
+import ReviewsLists from "../components/ReviewsLists";
 function Routing() {
   return (
     <Routes>
@@ -25,6 +26,7 @@ function Routing() {
       <Route path="/product-details/:slug" element={<ProductDetails />} />
       <Route path="/product-update/:title" element={<UpdateProduct />} />
       <Route path="/cart" element={<Cart />} />
+      <Route path="/reviewlist" element={<ReviewsLists />} />
       <Route path="/dashboard" element={<Dashboard />}>
         <Route path="/dashboard/productlist" element={<AdminProducts />} />
         <Route path="/dashboard/addproduct" element={<AddProduct />} />

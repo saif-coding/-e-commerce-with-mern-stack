@@ -7,6 +7,7 @@ function Reviews({ id, popup }) {
   const [hover, setHover] = useState(null);
   const [comment, setComment] = useState("");
   const [error, setError] = useState("");
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -23,11 +24,7 @@ function Reviews({ id, popup }) {
       if (resut.status === 201) {
         toast.success(resut.data.message);
         popup(false);
-        setRating(0);
-        setHover(null);
-        setComment("");
       }
-      console.log(resut.data);
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);

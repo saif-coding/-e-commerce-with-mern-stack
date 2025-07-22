@@ -22,4 +22,19 @@ const addReview = async (req, res) => {
   }
 };
 
-module.exports = { addReview };
+// GET /api/reviews/:productId
+const getReviewsByProduct = async (req, res) => {
+  try {
+    const { productId } = req.params;
+
+    const reviews = await ReviewModel.find({ productId })
+      .populate("userId", "name")
+      .sort({ createdAt: -1 }); // optional: populate user name
+
+    res.status(200).json(reviews);
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching reviews" });
+  }
+};
+
+module.exports = { addReview, getReviewsByProduct };
