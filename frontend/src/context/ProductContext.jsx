@@ -47,7 +47,7 @@ function ProductContextProvider({ children }) {
   useEffect(() => {
     getAllProducts();
     getAllCart();
-    getReviews();
+    // getReviews();
   }, []);
 
   return (

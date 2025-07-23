@@ -1,15 +1,20 @@
-import { useState } from "react";
+import { useContext, useState ,useEffect} from "react";
 import { FaStar } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { ProductContext } from "../context/ProductContext";
+import Loading from "../components/Loading";
 function Reviews({ id, popup }) {
+  const { getReviews } = useContext(ProductContext);
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(null);
   const [comment, setComment] = useState("");
   const [error, setError] = useState("");
-  
+  const [loading, setLoading] = useState(false);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       if (rating === 0 || comment.trim() === "") {
         setError("Please provide a rating and comment.");
@@ -22,15 +27,23 @@ function Reviews({ id, popup }) {
         { withCredentials: true }
       );
       if (resut.status === 201) {
+        await getReviews();
         toast.success(resut.data.message);
         popup(false);
       }
+      setLoading(false);
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
+      setLoading(false);
     }
   };
 
+  useEffect(() => {
+    getReviews();
+  }, [id]);
+
+  if (loading) return <Loading />;
   return (
     <div className=" w-full h-screen bg-black/90 absolute flex ">
       <form

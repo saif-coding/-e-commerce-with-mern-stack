@@ -1,22 +1,26 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { FaStar } from "react-icons/fa";
 import { ProductContext } from "../context/ProductContext";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 
-function ShowAllReviews({ title, id }) {
+function ShowAllReviews({ slug, id }) {
   const navigate = useNavigate();
-  const { reviewsData, oneRevie } = useContext(ProductContext);
+  const { reviewsData, oneRevie, getReviews } = useContext(ProductContext);
   const starCounts = [1, 2, 3, 4, 5].map((star) => ({
     stars: star,
     count: reviewsData.filter((r) => r.rating === star).length,
   }));
 
   const handleClick = () => {
-    navigate("/reviewlist", {
+    navigate(`/reviewlist`, {
       state: { id: id },
     });
   };
+
+  useEffect(() => {
+    getReviews();
+  }, [id]);
 
   return (
     <>
@@ -118,7 +122,6 @@ function ShowAllReviews({ title, id }) {
           <p className="text-sm text-gray-600 mb-4">
             {reviewsData.length} reviews for this Product
           </p>
-
           <div className="space-y-2">
             {starCounts
               .slice()

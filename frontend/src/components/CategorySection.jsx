@@ -1,5 +1,6 @@
-import React from "react";
-
+import React, { useContext } from "react";
+import { ProductContext } from "../context/ProductContext";
+import { Link } from "react-router-dom";
 const categories = [
   {
     id: 1,
@@ -24,6 +25,7 @@ const categories = [
 ];
 
 function CategorySection() {
+  const { allProductsData } = useContext(ProductContext);
   return (
     <section className="w-full bg-white py-16 px-4 md:px-10 lg:px-20">
       <div className="max-w-7xl mx-auto">
@@ -34,16 +36,15 @@ function CategorySection() {
 
         {/* Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-          {categories.map(({ id, label, img }) => (
-            <a
-              key={id}
-              href={`/category/${label.toLowerCase()}`}
+          {allProductsData.map((item, i) => (
+            <Link to={`/category/${item.category.toLowerCase()}`}
+              key={i}
               className="group relative rounded-xl overflow-hidden shadow-lg"
             >
               {/* Image */}
               <img
-                src={img}
-                alt={label}
+                src={item.images[0]}
+                alt={item.title}
                 className="w-full h-48 sm:h-56 md:h-64 object-cover transform group-hover:scale-105 transition duration-300 ease-out"
               />
 
@@ -52,9 +53,9 @@ function CategorySection() {
 
               {/* Label */}
               <span className="absolute bottom-4 left-4 text-lg sm:text-xl font-semibold text-white tracking-wide">
-                {label}
+                {item.category} 
               </span>
-            </a>
+            </Link>
           ))}
         </div>
       </div>

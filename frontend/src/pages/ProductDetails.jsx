@@ -159,7 +159,7 @@ function ProductDetails() {
           {showPopup && <Reviews id={productId} popup={setShowPopup} />}
         </div>
       </div>
-      <ShowAllReviews title={slug} id={productId} />
+      <ShowAllReviews slug={slug} id={productId} />
       <ReletedProduct cate={singleProduct.category} />
     </>
   );

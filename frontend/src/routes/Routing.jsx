@@ -14,6 +14,7 @@ import ProductDetails from "../pages/ProductDetails";
 import UpdateProduct from "../components/UpdateProduct";
 import Cart from "../pages/Cart";
 import ReviewsLists from "../components/ReviewsLists";
+import SpicficCategory from "../components/SpicficCategory";
 function Routing() {
   return (
     <Routes>
@@ -27,6 +28,7 @@ function Routing() {
       <Route path="/product-update/:title" element={<UpdateProduct />} />
       <Route path="/cart" element={<Cart />} />
       <Route path="/reviewlist" element={<ReviewsLists />} />
+      <Route path="/category/:cate" element={<SpicficCategory />} />
       <Route path="/dashboard" element={<Dashboard />}>
         <Route path="/dashboard/productlist" element={<AdminProducts />} />
         <Route path="/dashboard/addproduct" element={<AddProduct />} />

@@ -1,12 +1,13 @@
 import { useContext, useEffect } from "react";
 import { FaStar } from "react-icons/fa";
 import { ProductContext } from "../context/ProductContext";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import moment from "moment";
 
 const ReviewsLists = () => {
   const { reviewsData, getReviews } = useContext(ProductContext);
-
+  const navigate = useNavigate();
+  const { slug } = useParams();
   const location = useLocation();
   const id = location.state?.id;
 
@@ -14,12 +15,16 @@ const ReviewsLists = () => {
     getReviews(id);
   }, [id]);
 
+  // const handleClick = () => {
+  //   navigate(`/product-details/${slug}`, {
+  //     state: { id: id },
+  //   });
+  // };
   return (
     <div className=" w-full h-screen bg-black/80 pt-20">
       <div className="max-w-2xl bg-white  mx-auto p-4 space-y-4">
         <div className=" flex items-center gap-56">
-          <Link to={`/all-products`}>
-            {" "}
+          <Link to={"/all-products"}>
             <button
               type="button"
               class="flex items-center gap-2.5 border font-semibold border-gray-500/30 px-4 py-2 text-sm text-gray-800 rounded bg-white hover:text-pink-500/70 hover:bg-pink-500/10 hover:border-pink-500/30 active:scale-95 transition"
