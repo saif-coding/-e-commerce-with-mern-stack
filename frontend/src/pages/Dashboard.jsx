@@ -8,11 +8,11 @@ import { IoMdAddCircleOutline } from "react-icons/io";
 function Dashboard() {
   const sidebarLinks = [
     { name: "Dashboard", path: "/dashboard", icon: <MdDashboard /> },
-    {
-      name: "Overview",
-      path: "/dashboard/overview",
-      icon: <AiOutlineBarChart />,
-    },
+    // {
+    //   name: "Overview",
+    //   path: "/dashboard/overview",
+    //   icon: <AiOutlineBarChart />,
+    // },
     {
       name: "Product List",
       path: "/dashboard/productlist",

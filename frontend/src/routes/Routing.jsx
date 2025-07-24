@@ -15,6 +15,8 @@ import UpdateProduct from "../components/UpdateProduct";
 import Cart from "../pages/Cart";
 import ReviewsLists from "../components/ReviewsLists";
 import SpicficCategory from "../components/SpicficCategory";
+import MainDashboard from "../pages/MainDashboard";
+import Address from "../components/Address";
 function Routing() {
   return (
     <Routes>
@@ -29,7 +31,9 @@ function Routing() {
       <Route path="/cart" element={<Cart />} />
       <Route path="/reviewlist" element={<ReviewsLists />} />
       <Route path="/category/:cate" element={<SpicficCategory />} />
+      <Route path="/address" element={<Address />} />
       <Route path="/dashboard" element={<Dashboard />}>
+        <Route path="/dashboard" element={<MainDashboard />} />
         <Route path="/dashboard/productlist" element={<AdminProducts />} />
         <Route path="/dashboard/addproduct" element={<AddProduct />} />
         <Route path="/dashboard/orders" element={<OrdersList />} />
