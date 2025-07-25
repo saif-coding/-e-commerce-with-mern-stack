@@ -47,4 +47,21 @@ const getAddress = async (req, res) => {
     res.status(500).json({ success: false, message: "Server error" });
   }
 };
-module.exports = { addAddress, getAddress };
+
+const updateAddress = async (req, res) => {
+  try {
+    const { fullName, email, phone, street, city, state, zip, country } =
+      req.body;
+    const userId = req.user.userId;
+    const update = await AddressModel.findOneAndUpdate(
+      { userId },
+      { fullName, email, phone, street, city, state, zip, country },
+      { new: true }
+    );
+    res.status(200).json({ message: "address update successfully ", update });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ message: "address updating issue" });
+  }
+};
+module.exports = { addAddress, getAddress, updateAddress };

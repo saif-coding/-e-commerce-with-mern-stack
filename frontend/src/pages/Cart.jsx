@@ -9,7 +9,6 @@ function Cart() {
   const [showAddress, setShowAddress] = useState(false);
   const { getAllCart, userCart, getAddress, addressData } =
     useContext(ProductContext);
-  console.log(addressData);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -183,71 +182,57 @@ function Cart() {
             <div className="mb-6">
               <p className="text-sm font-medium uppercase">Delivery Address</p>
               <div className="relative flex justify-between items-start mt-2">
-                {showAddress && (
-                  <div className="absolute top-12 py-1 bg-white border border-gray-300 text-sm w-full">
-                    <p
-                      onClick={() => setShowAddress(false)}
-                      className="text-gray-500 p-2 hover:bg-gray-100"
-                    >
-                      <div className="text-sm text-gray-600">
-                        <p>
-                          <strong>Name:</strong> {addressData.address.fullName}
-                        </p>
-                        <p>
-                          <strong>Email:</strong> {addressData.address.email}
-                        </p>
-                        <p>
-                          <strong>Phone:</strong> {addressData.address.phone}
-                        </p>
-                        <p>
-                          <strong>Address:</strong> {addressData.address.street}
-                          , {addressData.address.city},{" "}
-                          {addressData.address.state} -{" "}
-                          {addressData.address.zip}
-                        </p>
-                        <p>
-                          <strong>Country:</strong>{" "}
-                          {addressData.address.country}
-                        </p>
-                      </div>
-                    </p>
-
-                    {showAddress.length > 0 ? (
-                      // ✅ Address exists → Show "Update address"
-                      <Link to={"/address"}>
-                        <p
-                          onClick={() => {
-                            navigate("/address");
-                            setShowAddress(false);
-                          }}
-                          className="text-indigo-500 text-center cursor-pointer p-2 hover:bg-indigo-500/10"
-                        >
-                          Update address
-                        </p>
-                      </Link>
-                    ) : (
-                      // ❌ No address → Show "Add address"
-                      <Link to={"/address"}>
-                        <p
-                          onClick={() => {
-                            navigate("/address");
-                            setShowAddress(false);
-                          }}
-                          className="text-indigo-500 text-center cursor-pointer p-2 hover:bg-indigo-500/10"
-                        >
-                          Add address
-                        </p>
-                      </Link>
-                    )}
+                {addressData.address ? (
+                  <div className=" capitalize">
+                    <span className=" mr-1">{addressData.address.street}</span>
+                    <span>{addressData.address.country}</span>
                   </div>
+                ) : (
+                  <p className="text-gray-500">No address found</p>
                 )}
-
                 <button
                   onClick={() => setShowAddress(!showAddress)}
                   className="text-indigo-500 hover:underline cursor-pointer"
                 >
                   Change
                 </button>
+                {showAddress && (
+                  <div className="absolute top-12 py-1 bg-white border border-gray-300 text-sm w-full">
+                    <p
+                      onClick={() => {
+                        setShowAddress(false);
+                      }}
+                      className="text-gray-500 p-2 hover:bg-gray-100"
+                    >
+                      {addressData.address._id ? (
+                        <div className=" capitalize">
+                          <span className=" mr-1">
+                            {addressData.address.street}
+                          </span>
+                          <span>{addressData.address.country}</span>
+                        </div>
+                      ) : (
+                        <p className="text-gray-500">No address found</p>
+                      )}
+                    </p>
+                    {addressData.address._id ? (
+                      <Link to={"/address-update"}>
+                        <p className="text-indigo-500 text-center cursor-pointer p-2 hover:bg-indigo-500/10">
+                          Update address
+                        </p>
+                      </Link>
+                    ) : (
+                      <p
+                        onClick={() => {
+                          setShowAddress(false), navigate("/address");
+                        }}
+                        className="text-indigo-500 text-center cursor-pointer p-2 hover:bg-indigo-500/10"
+                      >
+                        Add address
+                      </p>
+                    )}
+                  </div>
+                )}
               </div>
 
               <p className="text-sm font-medium uppercase mt-6">
@@ -264,6 +249,10 @@ function Cart() {
 
             <div className="text-gray-500 mt-4 space-y-2">
               <p className="flex justify-between">
+                <span>Price</span>
+                <span>$20</span>
+              </p>
+              <p className="flex justify-between">
                 <span>Shipping Fee</span>
                 <span className="text-green-600">Free</span>
               </p>
@@ -271,25 +260,9 @@ function Cart() {
                 <span>Tax (2%)</span>
                 <span>$20</span>
               </p>
-              <p className="flex justify-between">
-                <span>Total Quantity</span>
-                <span>
-                  {userCart.reduce((acc, curr) => acc + curr.quantity, 0)}
-                </span>
-              </p>
-              <p className="flex justify-between text-l font-medium mt-3">
+              <p className="flex justify-between text-lg font-medium mt-3">
                 <span>Total Amount:</span>
-                <span>
-                  $
-                  {userCart
-                    .reduce(
-                      (acc, pro) =>
-                        acc + pro.productId.offerPrice * pro.quantity,
-                      0
-                    )
-                    .toFixed(2)
-                    .toLocaleString()}
-                </span>
+                <span>$20</span>
               </p>
             </div>
 
