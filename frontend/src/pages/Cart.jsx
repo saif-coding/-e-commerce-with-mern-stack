@@ -9,9 +9,8 @@ function Cart() {
   const [showAddress, setShowAddress] = useState(false);
   const { getAllCart, userCart, getAddress, addressData } =
     useContext(ProductContext);
-  const { id } = useParams();
   const navigate = useNavigate();
-
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
   const decreaseQuantity = async (productId) => {
     try {
       const result = await axios.put(
@@ -62,11 +61,45 @@ function Cart() {
       toast.error(error.response.data.message);
     }
   };
+  const orderData = {
+    products: userCart.map((item) => ({
+      productId: item.productId._id, // or item.productId depending on your structure
+      title: item.productId.title,
+      image: item.productId.images[0],
+      price: item.price,
+      quantity: item.quantity,
+    })),
+    totalQuantity: userCart.reduce((acc, curr) => acc + curr.quantity, 0),
+    totalAmount: userCart.reduce(
+      (acc, curr) => acc + curr.productId.offerPrice * curr.quantity,
+      0
+    ),
+    address: addressData.address, // You can collect it from a form
+    paymentMethod: selectedPaymentMethod, // e.g. "Cash on Delivery"
+  };
+
+  const addOrder = async (req, res) => {
+    try {
+      const result = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/orders/add`,
+        orderData,
+        { withCredentials: true }
+      );
+      if (result.status === 201) {
+        toast.success(result.data.message);
+        navigate("/");
+      }
+      console.log(result.data);
+    } catch (error) {
+      console.log(error);
+      toast.error(error.response.data.message);
+    }
+  };
 
   useEffect(() => {
     getAllCart();
     getAddress();
-  }, [id]);
+  }, []);
 
   return (
     <>
@@ -239,7 +272,10 @@ function Cart() {
                 Payment Method
               </p>
 
-              <select className="w-full border border-gray-300 bg-white px-3 py-2 mt-2 outline-none">
+              <select
+                onChange={(e) => setSelectedPaymentMethod(e.target.value)}
+                className="w-full border border-gray-300 bg-white px-3 py-2 mt-2 outline-none"
+              >
                 <option value="COD">Cash On Delivery</option>
                 <option value="Online">Online Payment</option>
               </select>
@@ -249,10 +285,6 @@ function Cart() {
 
             <div className="text-gray-500 mt-4 space-y-2">
               <p className="flex justify-between">
-                <span>Price</span>
-                <span>$20</span>
-              </p>
-              <p className="flex justify-between">
                 <span>Shipping Fee</span>
                 <span className="text-green-600">Free</span>
               </p>
@@ -260,13 +292,31 @@ function Cart() {
                 <span>Tax (2%)</span>
                 <span>$20</span>
               </p>
+              <p className="flex justify-between">
+                <span>Total Quantity</span>
+                <span>
+                  {userCart.reduce((acc, curr) => acc + curr.quantity, 0)}
+                </span>
+              </p>
               <p className="flex justify-between text-lg font-medium mt-3">
                 <span>Total Amount:</span>
-                <span>$20</span>
+                <span>
+                  $
+                  {userCart
+                    .reduce(
+                      (acc, curr) =>
+                        acc + curr.productId.offerPrice * curr.quantity,
+                      0
+                    )
+                    .toFixed(2)}
+                </span>
               </p>
             </div>
 
-            <button className="w-full py-3 mt-6 cursor-pointer bg-indigo-500 text-white font-medium hover:bg-indigo-600 transition">
+            <button
+              onClick={() => addOrder()}
+              className="w-full py-3 mt-6 cursor-pointer bg-indigo-500 text-white font-medium hover:bg-indigo-600 transition"
+            >
               Place Order
             </button>
           </div>

@@ -9,6 +9,7 @@ const productRoutes = require("./routes/productRoutes");
 const cartRoutes = require("./routes/cartRoutes");
 const reviewRoutes = require("./routes/reviewRoutes");
 const addressRoutes = require("./routes/addressRoutes");
+const orderRoutes = require("./routes/orderRoutes");
 dotenv.config();
 connectDB();
 app.use(express.json());
@@ -25,6 +26,7 @@ app.use("/products", productRoutes);
 app.use("/carts", cartRoutes);
 app.use("/reviews", reviewRoutes);
 app.use("/address", addressRoutes);
+app.use("/orders", orderRoutes);
 
 const port = 3000;
 app.listen(port, () => console.log(`server is running on port ${port}`));
