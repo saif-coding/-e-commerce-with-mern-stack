@@ -1,10 +1,9 @@
 const express = require("express");
 const orderRoutes = express.Router();
 const varifyToken = require("../middlewares/varifyToken");
-const { placeOrder } = require("../controllers/orderControllers");
+const { placeOrder, getMyOrders } = require("../controllers/orderControllers");
 
 orderRoutes.post("/add", varifyToken, placeOrder);
-// addressRoutes.get("/get", varifyToken, getAddress);
-// addressRoutes.put("/update", varifyToken, updateAddress);
+orderRoutes.get("/get", varifyToken, getMyOrders);
 
 module.exports = orderRoutes;

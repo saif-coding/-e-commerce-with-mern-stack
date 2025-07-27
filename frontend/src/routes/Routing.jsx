@@ -18,6 +18,7 @@ import SpicficCategory from "../components/SpicficCategory";
 import MainDashboard from "../pages/MainDashboard";
 import Address from "../components/Address";
 import AddressUpdate from "../components/AddressUpdate";
+import Order from "../pages/Order";
 function Routing() {
   return (
     <Routes>
@@ -34,6 +35,7 @@ function Routing() {
       <Route path="/category/:cate" element={<SpicficCategory />} />
       <Route path="/address" element={<Address />} />
       <Route path="/address-update" element={<AddressUpdate />} />
+      <Route path="/order" element={<Order />} />
       <Route path="/dashboard" element={<Dashboard />}>
         <Route path="/dashboard" element={<MainDashboard />} />
         <Route path="/dashboard/productlist" element={<AdminProducts />} />

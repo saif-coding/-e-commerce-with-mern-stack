@@ -32,6 +32,15 @@ const placeOrder = async (req, res) => {
   }
 };
 
+const getMyOrders = async (req, res) => {
+  const userId = req.user.userId;
+  try {
+    const orders = await OrderModel.find({ userId }).sort({ createdAt: -1 });
+    res.status(200).json(orders);
+  } catch (error) {
+    console.log("Get Orders Error:", error);
+    res.status(500).json({ message: "Failed to fetch orders" });
+  }
+};
 
-
-module.exports = { placeOrder };
+module.exports = { placeOrder, getMyOrders };

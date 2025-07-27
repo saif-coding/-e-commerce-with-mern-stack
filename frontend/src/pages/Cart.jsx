@@ -7,7 +7,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 function Cart() {
   const [showAddress, setShowAddress] = useState(false);
-  const { getAllCart, userCart, getAddress, addressData } =
+  const { getAllCart, userCart, getAddress, addressData, getAllOrders } =
     useContext(ProductContext);
   const navigate = useNavigate();
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
@@ -78,7 +78,7 @@ function Cart() {
     paymentMethod: selectedPaymentMethod, // e.g. "Cash on Delivery"
   };
 
-  const addOrder = async (req, res) => {
+  const addOrder = async () => {
     try {
       const result = await axios.post(
         `${import.meta.env.VITE_BASE_URL}/orders/add`,
@@ -87,9 +87,9 @@ function Cart() {
       );
       if (result.status === 201) {
         toast.success(result.data.message);
-        navigate("/");
+        await getAllOrders();
+        navigate("/order");
       }
-      console.log(result.data);
     } catch (error) {
       console.log(error);
       toast.error(error.response.data.message);
