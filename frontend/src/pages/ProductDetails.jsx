@@ -121,15 +121,6 @@ function ProductDetails() {
                   )
                 )}
               <p className="text-base ml-2">({reviewsData.length})</p>
-
-              <h1>{}</h1>
-              <button
-                onClick={() => setShowPopup(!showPopup)}
-                type="button"
-                class="px-4 py-1.5 capitalize ml-12 active:scale-95 transition bg-blue-500 rounded text-white shadow-lg shadow-blue-500/30 text-sm font-medium"
-              >
-                add review
-              </button>
             </div>
 
             <div className="mt-3">
@@ -159,6 +150,13 @@ function ProductDetails() {
           {showPopup && <Reviews id={productId} popup={setShowPopup} />}
         </div>
       </div>
+      <button
+        onClick={() => setShowPopup(!showPopup)}
+        type="button"
+        class="px-4 py-1.5 mb-3 ml-20 capitalize active:scale-95 transition bg-blue-500 rounded text-white shadow-lg shadow-blue-500/30 text-sm font-medium"
+      >
+        Write review
+      </button>
       <ShowAllReviews slug={slug} id={productId} />
       <ReletedProduct cate={singleProduct.category} />
     </>

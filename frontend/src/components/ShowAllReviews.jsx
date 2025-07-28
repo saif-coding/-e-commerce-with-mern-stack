@@ -21,6 +21,12 @@ function ShowAllReviews({ slug, id }) {
   useEffect(() => {
     getReviews();
   }, [id]);
+  const totalRating = reviewsData.reduce(
+    (acc, review) => acc + review.rating,
+    0
+  );
+  const averageRating =
+    reviewsData.length > 0 ? (totalRating / reviewsData.length).toFixed(1) : 0;
 
   return (
     <>
@@ -118,10 +124,17 @@ function ShowAllReviews({ slug, id }) {
           </div>
         )}
         <div className=" w-96 mx-auto bg-white p-6 rounded-lg border border-gray-400 shadow-sm">
-          <h2 className="text-lg font-semibold text-gray-800 mb-1">Reviews</h2>
-          <p className="text-sm text-gray-600 mb-4">
-            {reviewsData.length} reviews for this Product
-          </p>
+          <div className=" flex items-center justify-between">
+            <div>
+              <h2 className="text-lg font-semibold text-gray-800 mb-1">
+                Reviews
+                <p className="text-sm text-gray-600 mb-4">
+                  {reviewsData.length} reviews for this Product
+                </p>
+              </h2>
+            </div>
+            <h1 className=" font-bold text-2xl">{averageRating}</h1>
+          </div>
           <div className="space-y-2">
             {starCounts
               .slice()

@@ -5,7 +5,9 @@ import { FaMinusCircle } from "react-icons/fa";
 import { ProductContext } from "../context/ProductContext";
 import axios from "axios";
 import { toast } from "react-toastify";
+import Loading from "../components/Loading";
 function Cart() {
+  const [loading, setLoading] = useState(false);
   const [showAddress, setShowAddress] = useState(false);
   const { getAllCart, userCart, getAddress, addressData, getAllOrders } =
     useContext(ProductContext);
@@ -79,6 +81,7 @@ function Cart() {
   };
 
   const addOrder = async () => {
+    setLoading(true);
     try {
       const result = await axios.post(
         `${import.meta.env.VITE_BASE_URL}/orders/add`,
@@ -90,8 +93,10 @@ function Cart() {
         await getAllOrders();
         navigate("/order");
       }
+      setLoading(false);
     } catch (error) {
       console.log(error);
+      setLoading(false);
       toast.error(error.response.data.message);
     }
   };
@@ -101,6 +106,7 @@ function Cart() {
     getAddress();
   }, []);
 
+  if (loading) return <Loading />;
   return (
     <>
       {userCart.length > 0 ? (

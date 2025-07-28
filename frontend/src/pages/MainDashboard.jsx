@@ -1,7 +1,12 @@
-import React from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { FaUsers, FaBox, FaDollarSign, FaShoppingCart } from "react-icons/fa";
-
+import { ProductContext } from "../context/ProductContext";
+import { UserContext } from "./../context/UserContext";
 const MainDashboard = () => {
+  const { allOrders, getAllOrders, allProductsData } =
+    useContext(ProductContext);
+  const { allUsers } = useContext(UserContext);
+  console.log(allOrders, "a");
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
       {/* Header */}
@@ -11,10 +16,26 @@ const MainDashboard = () => {
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <Card title="Total Revenue" icon={<FaDollarSign />} value="$12,345" />
-        <Card title="Total Products" icon={<FaBox />} value="120" />
-        <Card title="Total Users" icon={<FaUsers />} value="480" />
-        <Card title="Total Orders" icon={<FaShoppingCart />} value="328" />
+        <Card
+          title="Total Revenue"
+          icon={<FaDollarSign />}
+          value={allOrders.reduce((acc, curr) => acc + curr.totalAmount, 0)}
+        />
+        <Card
+          title="Total Products"
+          icon={<FaBox />}
+          value={allProductsData.length}
+        />
+        <Card
+          title="Total Users"
+          icon={<FaUsers />}
+          value={allUsers?.data?.length}
+        />
+        <Card
+          title="Total Orders"
+          icon={<FaShoppingCart />}
+          value={allOrders.length}
+        />
       </div>
 
       {/* Overview + Recent Orders */}
@@ -36,14 +57,22 @@ const MainDashboard = () => {
             Recent Orders
           </h2>
           <ul className="divide-y divide-gray-200">
-            {[1, 2, 3].map((order, i) => (
+            {allOrders.map((order, i) => (
               <li
                 key={i}
                 className="py-4 flex justify-between text-sm text-gray-600"
               >
-                <span>Order #10{i + 1}</span>
-                <span>$99.99</span>
-                <span className="text-green-500">Delivered</span>
+                <span>Order #0{i + 1}</span>
+                <span className=" font-bold">${order.totalAmount}</span>
+                <span
+                  className={`text-lg font-semibold ${
+                    order.status === "pending"
+                      ? "text-green-500"
+                      : "text-red-500"
+                  }`}
+                >
+                  {order.status}
+                </span>
               </li>
             ))}
           </ul>

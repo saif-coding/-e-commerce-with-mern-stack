@@ -9,7 +9,6 @@ function ProductContextProvider({ children }) {
   const [oneRevie, setOneRevie] = useState([]);
   const [addressData, setAddressData] = useState([]);
   const [allOrders, setAllOrders] = useState([]);
-  console.log(allOrders, "c");
   const getAllProducts = async () => {
     try {
       const result = await axios.get(
@@ -67,7 +66,6 @@ function ProductContextProvider({ children }) {
         { withCredentials: true }
       );
       setAllOrders(result.data);
-      console.log(result.data);
     } catch (error) {
       console.log(error);
     }
@@ -97,7 +95,7 @@ function ProductContextProvider({ children }) {
         getAddress,
         addressData,
         allOrders,
-        getAllOrders
+        getAllOrders,
       }}
     >
       {children}

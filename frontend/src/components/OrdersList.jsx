@@ -1,5 +1,11 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
+import { ProductContext } from "../context/ProductContext";
 function OrdersList() {
+  const { allOrders, getAllOrders } = useContext(ProductContext);
+
+  useEffect(() => {
+    getAllOrders();
+  }, []);
   const boxIcon =
     "https://raw.githubusercontent.com/prebuiltui/prebuiltui/main/assets/e-commerce/boxIcon.svg";
 
@@ -58,8 +64,11 @@ function OrdersList() {
   ];
   return (
     <div className="md:p-10 p-4 space-y-4 bg-white">
-      <h2 className="text-lg font-medium">Orders List</h2>
-      {orders.map((order, index) => (
+      <div className=" flex items-center justify-between">
+        <h2 className="text-lg font-medium">Orders List</h2>
+        <h2 className=" font-medium pr-20">Total Orders (<span>{allOrders.length}</span>)</h2>
+      </div>
+      {allOrders.map((order, index) => (
         <div
           key={index}
           className="flex flex-col md:grid md:grid-cols-[2fr_1fr_1fr_1fr] md:items-center gap-5 p-5 max-w-4xl rounded-md border border-gray-300 text-gray-800"
@@ -70,11 +79,11 @@ function OrdersList() {
               src={boxIcon}
               alt="boxIcon"
             />
-            <>
-              {order.items.map((item, index) => (
+            <div>
+              {order.products.map((item, index) => (
                 <div key={index} className="flex flex-col justify-center">
                   <p className="font-medium">
-                    {item.product.name}{" "}
+                    {item.title.slice(0, 10)}...
                     <span
                       className={`text-indigo-500 ${
                         item.quantity < 2 && "hidden"
@@ -85,13 +94,11 @@ function OrdersList() {
                   </p>
                 </div>
               ))}
-            </>
+            </div>
           </div>
 
           <div className="text-sm">
-            <p className="font-medium mb-1">
-              {order.address.firstName} {order.address.lastName}
-            </p>
+            <p className="font-medium mb-1">{order.address.fullName}</p>
             <p>
               {order.address.street}, {order.address.city},{" "}
               {order.address.state},{order.address.zipcode},{" "}
@@ -100,12 +107,12 @@ function OrdersList() {
           </div>
 
           <p className="font-medium text-base my-auto text-black/70">
-            ${order.amount}
+            ${order.totalAmount}
           </p>
 
           <div className="flex flex-col text-sm">
-            <p>Method: {order.paymentType}</p>
-            <p>Date: {order.orderDate}</p>
+            <p>Method: {order.paymentMethod}</p>
+            <p>Date: {new Date(order.createdAt).toLocaleDateString()}</p>
             <p>Payment: {order.isPaid ? "Paid" : "Pending"}</p>
           </div>
         </div>

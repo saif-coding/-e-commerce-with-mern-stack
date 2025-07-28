@@ -1,4 +1,4 @@
-import { useContext, useState ,useEffect} from "react";
+import { useContext, useState, useEffect } from "react";
 import { FaStar } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -45,10 +45,10 @@ function Reviews({ id, popup }) {
 
   if (loading) return <Loading />;
   return (
-    <div className=" w-full h-screen bg-black/90 absolute flex ">
+    <div className=" w-full h-[800px] bg-black/90 absolute flex ">
       <form
         onSubmit={handleSubmit}
-        className="max-w-md mx-auto p-4 border rounded shadow-md h-80 bg-white mt-6"
+        className="max-w-md mx-auto p-4 border rounded shadow-md h-80 bg-white mt-28"
       >
         <h1 className="text-red-600 font-semibold mb-2">{error}</h1>
         <h2 className="text-xl font-semibold mb-4">Leave a Review</h2>
