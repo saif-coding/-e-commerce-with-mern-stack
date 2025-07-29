@@ -186,10 +186,32 @@ const removeProductFromCart = async (req, res) => {
   }
 };
 
+const clearCart = async (req, res) => {
+  try {
+    const userId = req.user.userId;
+
+    const cart = await CartModel.findOne({ userId });
+
+    if (!cart) {
+      return res.status(404).json({ message: "Cart not found" });
+    }
+
+    // Clear items and save
+    cart.items = [];
+    await cart.save(); // ❗ You must save the cleared cart
+
+    return res.status(200).json({ message: "Cart cleared successfully" });
+  } catch (error) {
+    console.error("Clear Cart Error:", error);
+    return res.status(500).json({ message: "Error clearing cart" });
+  }
+};
+
 module.exports = {
   addToCart,
   getCartByUserId,
   decreaseQuantity,
   increasQuantity,
   removeProductFromCart,
+  clearCart,
 };

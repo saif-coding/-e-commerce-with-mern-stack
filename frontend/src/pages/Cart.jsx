@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { FaPlusCircle } from "react-icons/fa";
 import { FaMinusCircle } from "react-icons/fa";
+import { IoCloseCircleSharp } from "react-icons/io5";
 import { ProductContext } from "../context/ProductContext";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -14,6 +15,7 @@ function Cart() {
   const navigate = useNavigate();
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
   const decreaseQuantity = async (productId) => {
+    setLoading(true);
     try {
       const result = await axios.put(
         `${import.meta.env.VITE_BASE_URL}/carts/down`,
@@ -24,13 +26,16 @@ function Cart() {
         toast.success(result.data.message);
         await getAllCart();
       }
+      setLoading(false);
     } catch (error) {
       console.log(error);
+      setLoading(false);
       toast.error(error.response.data.message);
     }
   };
 
   const increaseQuantity = async (productId) => {
+    setLoading(true);
     try {
       const result = await axios.put(
         `${import.meta.env.VITE_BASE_URL}/carts/upper`,
@@ -41,13 +46,16 @@ function Cart() {
         toast.success(result.data.message);
         await getAllCart();
       }
+      setLoading(false);
     } catch (error) {
       console.log(error);
+      setLoading(false);
       toast.error(error.response.data.message);
     }
   };
 
   const removeProductFromCart = async (productId) => {
+    setLoading(true);
     try {
       const result = await axios.put(
         `${import.meta.env.VITE_BASE_URL}/carts/remove`,
@@ -58,8 +66,10 @@ function Cart() {
         toast.success(result.data.message);
         await getAllCart();
       }
+      setLoading(false);
     } catch (error) {
       console.log(error);
+      setLoading(false);
       toast.error(error.response.data.message);
     }
   };
@@ -101,6 +111,24 @@ function Cart() {
     }
   };
 
+  const clearCart = async () => {
+    setLoading(true);
+    try {
+      const result = await axios.delete(
+        `${import.meta.env.VITE_BASE_URL}/carts/clear`,
+        { withCredentials: true }
+      );
+      if (result.status === 200) {
+        await getAllCart();
+        toast.success(result.data.message);
+      }
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+      toast.error(error.response.data.message);
+    }
+  };
   useEffect(() => {
     getAllCart();
     getAddress();
@@ -112,19 +140,26 @@ function Cart() {
       {userCart.length > 0 ? (
         <div className="flex flex-col md:flex-row py-16 max-w-6xl w-full px-6 mx-auto">
           <div className="flex-1 max-w-4xl">
-            <h1 className="text-3xl font-medium mb-6">
+            <button
+              onClick={() => clearCart()}
+              className="group cursor-pointer flex items-center mt-8 gap-2 text-red-600 font-medium"
+            >
+              <span>
+                <IoCloseCircleSharp />
+              </span>{" "}
+              Clear Cart
+            </button>{" "}
+            <h1 className="text-3xl font-medium mt-3 mb-6">
               Shopping Cart{" "}
               <span className="text-sm text-indigo-500">
                 {userCart.length} Items
               </span>
             </h1>
-
             <div className="grid grid-cols-[2fr_1fr_1fr] text-gray-500 text-base font-medium pb-3">
               <p className="text-left">Product Details</p>
               <p className="text-center">Subtotal</p>
               <p className="text-center">Action</p>
             </div>
-
             {userCart?.map((item, index) => (
               <div
                 key={index}
@@ -190,7 +225,6 @@ function Cart() {
                 </button>
               </div>
             ))}
-
             <Link
               to={"/all-products"}
               className="group cursor-pointer flex items-center mt-8 gap-2 text-indigo-500 font-medium"
