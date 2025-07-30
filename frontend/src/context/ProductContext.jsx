@@ -9,6 +9,7 @@ function ProductContextProvider({ children }) {
   const [oneRevie, setOneRevie] = useState([]);
   const [addressData, setAddressData] = useState([]);
   const [allOrders, setAllOrders] = useState([]);
+  
   const getAllProducts = async () => {
     try {
       const result = await axios.get(
@@ -41,7 +42,6 @@ function ProductContextProvider({ children }) {
       );
       setReviewsData(result.data);
       setOneRevie(result.data.slice(0, 1));
-      console.log(result.data);
     } catch (error) {
       console.log(error);
     }

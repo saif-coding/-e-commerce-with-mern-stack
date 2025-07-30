@@ -1,11 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, Outlet } from "react-router-dom";
 import { MdDashboard, MdAddBox, MdViewList, MdListAlt } from "react-icons/md";
 import { AiOutlineBarChart } from "react-icons/ai";
 import { FaClipboardList, FaListUl } from "react-icons/fa";
 import { IoMdAddCircleOutline } from "react-icons/io";
+import { UserContext } from "../context/UserContext";
+import { FaArrowAltCircleRight } from "react-icons/fa";
 
+UserContext;
 function Dashboard() {
+  const { singleUser } = useContext(UserContext);
   const sidebarLinks = [
     { name: "Dashboard", path: "/dashboard", icon: <MdDashboard /> },
     // {
@@ -43,10 +47,16 @@ function Dashboard() {
             />
           </Link>
           <div className="flex items-center gap-5 text-gray-500">
-            <p>Hi! Admin</p>
-            <button className="border rounded-full text-sm px-4 py-1">
-              Logout
-            </button>
+            <p>Hi! {singleUser.name}</p>
+            <Link to={"/profile"}>
+              {" "}
+              <div className=" flex items-center border rounded-full gap-2 cursor-pointer text-sm px-4 py-1">
+                <button>Profile </button>
+                <span>
+                  <FaArrowAltCircleRight />
+                </span>
+              </div>
+            </Link>
           </div>
         </header>
 

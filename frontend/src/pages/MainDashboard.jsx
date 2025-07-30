@@ -17,21 +17,25 @@ const MainDashboard = () => {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <Card
+          color="bg-[#3260E6]"
           title="Total Revenue"
           icon={<FaDollarSign />}
           value={allOrders.reduce((acc, curr) => acc + curr.totalAmount, 0)}
         />
         <Card
+          color="bg-[#FFB421]"
           title="Total Products"
           icon={<FaBox />}
           value={allProductsData.length}
         />
         <Card
+          color="bg-[#FE2C5F]"
           title="Total Users"
           icon={<FaUsers />}
           value={allUsers?.data?.length}
         />
         <Card
+          color="bg-[#8028D4]"
           title="Total Orders"
           icon={<FaShoppingCart />}
           value={allOrders.length}
@@ -82,14 +86,16 @@ const MainDashboard = () => {
   );
 };
 
-const Card = ({ title, icon, value }) => (
-  <div className="bg-white p-5 rounded-xl shadow-md flex items-center gap-4 hover:shadow-lg transition">
-    <div className="bg-gray-800 text-white p-3 rounded-full text-lg">
+const Card = ({ title, icon, value, color }) => (
+  <div
+    className={`${color} text-white p-5 rounded-xl shadow-md flex items-center gap-4 hover:shadow-lg transition`}
+  >
+    <div className=" bg-white text-black p-3 rounded-full text-lg">
       {icon}
     </div>
     <div>
-      <p className="text-sm text-gray-500">{title}</p>
-      <h3 className="text-xl font-bold text-gray-700">{value}</h3>
+      <p className="text-sm font-bold">{title}</p>
+      <h3 className="text-xl font-bold">{value}</h3>
     </div>
   </div>
 );

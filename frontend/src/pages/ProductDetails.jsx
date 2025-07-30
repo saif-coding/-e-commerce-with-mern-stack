@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
 import ReletedProduct from "../components/ReletedProduct";
 import Reviews from "../components/Reviews";
 import { useContext } from "react";
 import { ProductContext } from "../context/ProductContext";
 import ShowAllReviews from "../components/ShowAllReviews";
-
+import Loading from "../components/Loading";
+import { toast } from "react-toastify";
 function ProductDetails() {
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const product = {
     name: "Nike Pegasus 41 shoes",
     category: "Sports",
@@ -26,13 +29,14 @@ function ProductDetails() {
       "Available in different sizes",
     ],
   };
-  const { reviewsData, getReviews } = useContext(ProductContext);
+  const { reviewsData, getReviews, getAllCart } = useContext(ProductContext);
   const [showPopup, setShowPopup] = useState(false);
   const [singleProduct, setSingleProduct] = useState([]);
   const [thumbnail, setThumbnail] = useState(null);
   const { slug } = useParams(); // get the title from URL
   const location = useLocation();
   const productId = location.state?.productId; // get the id from state
+
   const getSingle = async () => {
     try {
       const result = await axios.get(
@@ -45,6 +49,26 @@ function ProductDetails() {
     }
   };
 
+  const addToCart = async (id, quantity) => {
+    setLoading(true);
+    try {
+      const result = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/carts/add`,
+        { productId: id, quantity },
+        { withCredentials: true }
+      );
+      if (result.status === 201 || 200) {
+        toast.success(result.data.message);
+        await getAllCart();
+        navigate(`/cart`);
+      }
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+      toast.error(error.response.data.message);
+    }
+  };
   useEffect(() => {
     getSingle();
     getReviews(productId);
@@ -57,6 +81,7 @@ function ProductDetails() {
   }, [singleProduct]);
   if (!singleProduct) return <p className=" text-2xl font-bold">Loading...</p>;
 
+  if (loading) return <Loading />;
   return (
     <>
       <div className="max-w-6xl w-full px-6 pt-6 pb-20">
@@ -137,9 +162,13 @@ function ProductDetails() {
             <ul className="list-disc ml-4 text-gray-500/70">
               {singleProduct.description}
             </ul>
+            {/* <p>{singleProduct._id}</p> */}
 
             <div className="flex items-center mt-10 gap-4 text-base">
-              <button className="w-full py-3.5 cursor-pointer font-medium bg-gray-100 text-gray-800/80 hover:bg-gray-200 transition">
+              <button
+                onClick={() => addToCart(singleProduct._id, 1)}
+                className="w-full py-3.5 cursor-pointer font-medium bg-gray-100 text-gray-800/80 hover:bg-gray-200 transition"
+              >
                 Add to Cart
               </button>
               <button className="w-full py-3.5 cursor-pointer font-medium bg-indigo-500 text-white hover:bg-indigo-600 transition">

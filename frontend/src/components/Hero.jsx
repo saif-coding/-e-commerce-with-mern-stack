@@ -8,6 +8,7 @@ import {
   FaChevronUp,
 } from "react-icons/fa";
 import HeroImage from "../assets/images/malee.png";
+import { Link } from "react-router-dom";
 
 function Hero() {
   return (
@@ -24,9 +25,15 @@ function Hero() {
               with classic craftsmanship. Whether you’re dressing for work,
               weekends, or unforgettable moments,
             </p>
-            <button className="mt-8 px-6 py-3 bg-black text-white font-semibold rounded-lg shadow hover:bg-gray-900 transition">
-              SHOP NOW
-            </button>
+            <Link  to={"/all-products"}>
+             
+              <button
+               
+                className="mt-8 px-6 py-3 bg-black text-white font-semibold rounded-lg shadow hover:bg-gray-900 transition"
+              >
+                SHOP NOW
+              </button>
+            </Link>
           </div>
 
           {/* Right Image Section */}

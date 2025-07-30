@@ -1,29 +1,32 @@
 import React from "react";
-
+import image1 from "../assets/images/Classic Sunglasses.jpg";
+import image2 from "../assets/images/Leather Tote Bag.jpg";
+import image3 from "../assets/images/Minimalist Sneakers.jpg";
+import image4 from "../assets/images/Oversized Blazer.jpg";
 const featuredProducts = [
   {
     id: 1,
     name: "Oversized Blazer",
     price: "$89.99",
-    image: "/images/product-1.jpg",
+    image: image4,
   },
   {
     id: 2,
     name: "Minimalist Sneakers",
     price: "$129.99",
-    image: "/images/product-2.jpg",
+    image: image3,
   },
   {
     id: 3,
     name: "Leather Tote Bag",
     price: "$159.99",
-    image: "/images/product-3.jpg",
+    image: image2,
   },
   {
     id: 4,
     name: "Classic Sunglasses",
     price: "$49.99",
-    image: "/images/product-4.jpg",
+    image: image1,
   },
 ];
 

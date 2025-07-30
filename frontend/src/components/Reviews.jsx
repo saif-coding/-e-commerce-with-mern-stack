@@ -12,14 +12,15 @@ function Reviews({ id, popup }) {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  console.log(rating, comment, "re");
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
     try {
       if (rating === 0 || comment.trim() === "") {
         setError("Please provide a rating and comment.");
         return;
       }
+      setLoading(true);
 
       const resut = await axios.post(
         `${import.meta.env.VITE_BASE_URL}/reviews/add/${id}`,
