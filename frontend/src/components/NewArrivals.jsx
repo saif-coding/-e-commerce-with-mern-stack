@@ -1,9 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
-function NewArrivals() {
-  const [threeProducts, setThreeProducts] = useState([]);
+import { Link, useNavigate } from "react-router-dom";
+import Loading from "../components/Loading";
+import { ProductContext } from "../context/ProductContext";
+import { toast } from "react-toastify";
 
+function NewArrivals() {
+  const [loading, setLoading] = useState(false);
+  const { getAllCart } = useContext(ProductContext);
+  const [threeProducts, setThreeProducts] = useState([]);
+  const navigate = useNavigate();
   const getAllProducts = async () => {
     try {
       const result = await axios.get(
@@ -15,10 +21,32 @@ function NewArrivals() {
       console.log(error);
     }
   };
+
+  const addToCart = async (id, quantity) => {
+    setLoading(true);
+    try {
+      const result = await axios.post(
+        `${import.meta.env.VITE_BASE_URL}/carts/add`,
+        { productId: id, quantity },
+        { withCredentials: true }
+      );
+      if (result.status === 201 || 200) {
+        toast.success(result.data.message);
+        await getAllCart();
+        navigate(`/cart`);
+      }
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+      toast.error(error.response.data.message);
+    }
+  };
   useEffect(() => {
     getAllProducts();
   }, []);
 
+  if (loading) return <Loading />;
   return (
     <div className="w-full px-4 py-10 bg-gray-50">
       <h1 className="text-3xl font-medium text-slate-800 text-center mb-2 font-poppins">
@@ -64,7 +92,10 @@ function NewArrivals() {
                   >
                     View Details
                   </Link>
-                  <button className="hover:bg-slate-600 bg-slate-950 rounded-lg cursor-pointer text-white py-2">
+                  <button
+                    onClick={() => addToCart(item._id, 1)}
+                    className="hover:bg-slate-600 bg-slate-950 rounded-lg cursor-pointer text-white py-2"
+                  >
                     Add to cart
                   </button>
                 </div>
