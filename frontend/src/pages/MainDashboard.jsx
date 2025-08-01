@@ -2,11 +2,11 @@ import React, { useContext, useState, useEffect } from "react";
 import { FaUsers, FaBox, FaDollarSign, FaShoppingCart } from "react-icons/fa";
 import { ProductContext } from "../context/ProductContext";
 import { UserContext } from "./../context/UserContext";
+import SalesChart from "../components/SalesChart";
 const MainDashboard = () => {
   const { allOrders, getAllOrders, allProductsData } =
     useContext(ProductContext);
   const { allUsers } = useContext(UserContext);
-  console.log(allOrders, "a");
   return (
     <div className="p-6 bg-gray-100 min-h-screen">
       {/* Header */}
@@ -43,20 +43,12 @@ const MainDashboard = () => {
       </div>
 
       {/* Overview + Recent Orders */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-40 mb-10">
         {/* Overview Chart Placeholder */}
-        <div className="bg-white p-6 rounded-xl shadow-md">
-          <h2 className="text-xl font-semibold text-gray-700 mb-4">
-            Sales Overview
-          </h2>
-          <div className="h-60 flex items-center justify-center text-gray-400">
-            {/* Chart can be added here (e.g., using recharts, chart.js, etc.) */}
-            [ Sales Chart Placeholder ]
-          </div>
-        </div>
+        <SalesChart />
 
         {/* Recent Orders */}
-        <div className="bg-white p-6 rounded-xl shadow-md">
+        <div className="bg-white p-6 rounded-xl w-96 h-[400px] shadow-md">
           <h2 className="text-xl font-semibold text-gray-700 mb-4">
             Recent Orders
           </h2>
@@ -90,9 +82,7 @@ const Card = ({ title, icon, value, color }) => (
   <div
     className={`${color} text-white p-5 rounded-xl shadow-md flex items-center gap-4 hover:shadow-lg transition`}
   >
-    <div className=" bg-white text-black p-3 rounded-full text-lg">
-      {icon}
-    </div>
+    <div className=" bg-white text-black p-3 rounded-full text-lg">{icon}</div>
     <div>
       <p className="text-sm font-bold">{title}</p>
       <h3 className="text-xl font-bold">{value}</h3>
