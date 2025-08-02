@@ -1,8 +1,9 @@
 import axios from "axios";
 import React, { useContext, useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { ProductContext } from "../context/ProductContext";
+import { FaArrowAltCircleLeft } from "react-icons/fa";
 
 const AddressUpdate = () => {
   const { addressData, getAddress } = useContext(ProductContext);
@@ -18,10 +19,8 @@ const AddressUpdate = () => {
     zip: "",
     country: "",
   });
-  console.log(address);
   useEffect(() => {
     const updatedData = addressData.address;
-    console.log(updatedData, "one");
     if (updatedData) {
       setAddress({
         fullName: updatedData.fullName,
@@ -65,9 +64,20 @@ const AddressUpdate = () => {
   return (
     <div className=" bg-black/80 absolute w-full h-auto top-0 left-0">
       <div className="max-w-xl mx-auto mt-10 p-6 my-20 shadow-md bg-white rounded-md">
-        <h2 className="text-2xl font-bold mb-4">
-          Update Your Delivery Address
-        </h2>
+        <div className=" flex items-center gap-12 mb-3">
+          <div
+            onClick={() => navigate("/cart")}
+            className=" flex items-center border w-24 rounded-full gap-2 cursor-pointer text-sm px-4 py-1"
+          >
+            <span>
+              <FaArrowAltCircleLeft />
+            </span>
+            <button>Back </button>
+          </div>{" "}
+          <h2 className="text-2xl font-bold mb-4">
+            Update Your Delivery Address
+          </h2>
+        </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <input
             type="text"

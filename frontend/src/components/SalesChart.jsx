@@ -22,7 +22,9 @@ function SalesChart() {
       <LineChart width={500} height={300} data={data}>
         <CartesianGrid strokeDasharray="3 3" />
         <XAxis dataKey="month" />
-        <YAxis />
+        <YAxis
+          tickFormatter={(value) => `$${value}`} // ڈالر میں دکھائیں
+        />
         <Tooltip />
         <Legend />
         <Line

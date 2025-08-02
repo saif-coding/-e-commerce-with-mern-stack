@@ -254,7 +254,7 @@ function Cart() {
 
             <div className="mb-6">
               <p className="text-sm font-medium uppercase">Delivery Address</p>
-              <div className="relative flex justify-between items-start mt-2">
+              <div className="relative flex justify-between text-gray-400 items-start mt-2">
                 {addressData.address ? (
                   <div className=" capitalize">
                     <span className=" mr-1">{addressData.address.street}</span>
