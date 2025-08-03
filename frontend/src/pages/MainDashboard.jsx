@@ -21,6 +21,7 @@ const MainDashboard = () => {
           title="Total Revenue"
           icon={<FaDollarSign />}
           value={allOrders.reduce((acc, curr) => acc + curr.totalAmount, 0)}
+          dollar={"$"}
         />
         <Card
           color="bg-[#FFB421]"
@@ -78,14 +79,17 @@ const MainDashboard = () => {
   );
 };
 
-const Card = ({ title, icon, value, color }) => (
+const Card = ({ title, icon, value, color, dollar }) => (
   <div
     className={`${color} text-white p-5 rounded-xl shadow-md flex items-center gap-4 hover:shadow-lg transition`}
   >
     <div className=" bg-white text-black p-3 rounded-full text-lg">{icon}</div>
     <div>
       <p className="text-sm font-bold">{title}</p>
-      <h3 className="text-xl font-bold">{value}</h3>
+      <h3 className="text-xl font-bold">
+        {dollar}
+        {value}
+      </h3>
     </div>
   </div>
 );

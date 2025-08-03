@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import { ProductContext } from "../context/ProductContext";
 function OrdersList() {
   const { allOrders, getAllOrders } = useContext(ProductContext);
-
+console.log(allOrders, "ordli")
   useEffect(() => {
     getAllOrders();
   }, []);
@@ -66,7 +66,9 @@ function OrdersList() {
     <div className="md:p-10 p-4 space-y-4 bg-white">
       <div className=" flex items-center justify-between">
         <h2 className="text-lg font-medium">Orders List</h2>
-        <h2 className=" font-medium pr-20">Total Orders (<span>{allOrders.length}</span>)</h2>
+        <h2 className=" font-medium pr-20">
+          Total Orders (<span>{allOrders.length}</span>)
+        </h2>
       </div>
       {allOrders.map((order, index) => (
         <div
@@ -86,7 +88,7 @@ function OrdersList() {
                     {item.title.slice(0, 10)}...
                     <span
                       className={`text-indigo-500 ${
-                        item.quantity < 2 && "hidden"
+                        item.quantity < 0 && "hidden"
                       }`}
                     >
                       x {item.quantity}
@@ -98,20 +100,20 @@ function OrdersList() {
           </div>
 
           <div className="text-sm">
-            <p className="font-medium mb-1">{order.address.fullName}</p>
+            <p className="font-medium mb-1">{order?.address?.fullName}</p>
             <p>
-              {order.address.street}, {order.address.city},{" "}
-              {order.address.state},{order.address.zipcode},{" "}
-              {order.address.country}
+              {order?.address?.street}, {order?.address?.city},{" "}
+              {order?.address?.state},{order?.address?.zipcode},{" "}
+              {order?.address?.country}
             </p>
           </div>
 
           <p className="font-medium text-base my-auto text-black/70">
-            ${order.totalAmount}
+            ${order?.totalAmount}
           </p>
 
           <div className="flex flex-col text-sm">
-            <p>Method: {order.paymentMethod}</p>
+            <p>Method: {order?.paymentMethod}</p>
             <p>Date: {new Date(order.createdAt).toLocaleDateString()}</p>
             <p>Payment: {order.isPaid ? "Paid" : "Pending"}</p>
           </div>

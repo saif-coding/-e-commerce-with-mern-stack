@@ -6,7 +6,7 @@ const {
   getReviewsByProduct,
 } = require("../controllers/reviewControllers");
 
-reviewRoutes.post("/add/:id", varifyToken, addReview);
-reviewRoutes.get("/get/:productId", varifyToken, getReviewsByProduct);
+reviewRoutes.post("/add/:id", addReview);
+reviewRoutes.get("/get/:productId", getReviewsByProduct);
 
 module.exports = reviewRoutes;

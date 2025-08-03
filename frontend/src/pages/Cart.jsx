@@ -277,7 +277,7 @@ function Cart() {
                       }}
                       className="text-gray-500 p-2 hover:bg-gray-100"
                     >
-                      {addressData.address._id ? (
+                      {addressData.address ? (
                         <div className=" capitalize">
                           <span className=" mr-1">
                             {addressData.address.street}
@@ -288,7 +288,7 @@ function Cart() {
                         <p className="text-gray-500">No address found</p>
                       )}
                     </p>
-                    {addressData.address._id ? (
+                    {addressData.address ? (
                       <Link to={"/address-update"}>
                         <p className="text-indigo-500 text-center cursor-pointer p-2 hover:bg-indigo-500/10">
                           Update address

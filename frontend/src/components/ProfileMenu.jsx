@@ -7,7 +7,9 @@ import { FaUser } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { UserContext } from "../context/UserContext";
+import { ProductContext } from "../context/ProductContext";
 const ProfileMenu = () => {
+  const { setUserCart } = useContext(ProductContext);
   const { setSingleUser, singleUser } = useContext(UserContext);
   const navigate = useNavigate();
 
@@ -21,6 +23,7 @@ const ProfileMenu = () => {
       if ((await result).status === 200) {
         toast.success((await result).data.message);
         setSingleUser("");
+        setUserCart("");
         navigate("/login");
       }
     } catch (error) {
@@ -54,10 +57,10 @@ const ProfileMenu = () => {
             <MdDashboard className="text-gray-500 group-hover:text-blue-600" />
             <span className="hover:text-blue-600">Dashboard</span>
           </Link>
-          <li className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer transition-colors">
+          <Link to={"/order"} className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer transition-colors">
             <FaBoxOpen className="text-gray-500 group-hover:text-blue-600" />
             <span className="hover:text-blue-600">Orders</span>
-          </li>
+          </Link>
           <li
             onClick={logout}
             className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer transition-colors"

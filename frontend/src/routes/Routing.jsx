@@ -1,5 +1,5 @@
-import React from "react";
-import { Routes, Route } from "react-router-dom";
+import React, { useContext } from "react";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Register from "../pages/Register";
 import Login from "../pages/Login";
 import Home from "../pages/Home";
@@ -19,24 +19,52 @@ import MainDashboard from "../pages/MainDashboard";
 import Address from "../components/Address";
 import AddressUpdate from "../components/AddressUpdate";
 import Order from "../pages/Order";
+import { UserContext } from "../context/UserContext";
 function Routing() {
+  const { singleUser } = useContext(UserContext);
+  const isAdmin = singleUser.role === "admin";
+  const isUser = singleUser.role === "user";
   return (
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/register" element={<Register />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/profile" element={<UserProfile />} />
-      <Route path="/update/:id" element={<UserUpdate />} />
+      <Route
+        path="/profile"
+        element={singleUser ? <UserProfile /> : <Navigate to={"/login"} />}
+      />
+      <Route
+        path="/update/:id"
+        element={singleUser ? <UserUpdate /> : <Navigate to={"/login"} />}
+      />
       <Route path="/all-products" element={<AllProducts />} />
       <Route path="/product-details/:slug" element={<ProductDetails />} />
       <Route path="/product-update/:title" element={<UpdateProduct />} />
-      <Route path="/cart" element={<Cart />} />
-      <Route path="/reviewlist" element={<ReviewsLists />} />
+      <Route
+        path="/cart"
+        element={isAdmin || isUser ? <Cart /> : <Navigate to={"/login"} />}
+      />
+      <Route
+        path="/reviewlist"
+        element={singleUser ? <ReviewsLists /> : <Navigate to={"/login"} />}
+      />
       <Route path="/category/:cate" element={<SpicficCategory />} />
-      <Route path="/address" element={<Address />} />
-      <Route path="/address-update" element={<AddressUpdate />} />
-      <Route path="/order" element={<Order />} />
-      <Route path="/dashboard" element={<Dashboard />}>
+      <Route
+        path="/address"
+        element={singleUser ? <Address /> : <Navigate to={"/login"} />}
+      />
+      <Route
+        path="/address-update"
+        element={singleUser ? <AddressUpdate /> : <Navigate to={"/login"} />}
+      />
+      <Route
+        path="/order"
+        element={singleUser ? <Order /> : <Navigate to={"/login"} />}
+      />
+      <Route
+        path="/dashboard"
+        element={isAdmin ? <Dashboard /> : <Navigate to="/" replace />}
+      >
         <Route path="/dashboard" element={<MainDashboard />} />
         <Route path="/dashboard/productlist" element={<AdminProducts />} />
         <Route path="/dashboard/addproduct" element={<AddProduct />} />

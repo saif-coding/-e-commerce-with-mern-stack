@@ -4,7 +4,9 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import Loading from "../components/Loading";
 import { UserContext } from "../context/UserContext";
+import { ProductContext } from "../context/ProductContext";
 function Login() {
+  const { getAllCart } = useContext(ProductContext);
   const { getSingleUser } = useContext(UserContext);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -26,10 +28,11 @@ function Login() {
         { withCredentials: true }
       );
       if (result.status === 200) {
+        await getSingleUser();
+        await getAllCart();
         navigate("/");
         toast.success(result.data.message);
       }
-      await getSingleUser();
       setLoading(false);
     } catch (error) {
       toast.error(error.response.data.message);

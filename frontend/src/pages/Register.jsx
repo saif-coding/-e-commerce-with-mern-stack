@@ -11,7 +11,6 @@ function Register() {
     email: "",
     password: "",
   });
-  console.log(registerData);
   const handleChange = (e) => {
     setRegisterData({ ...registerData, [e.target.name]: e.target.value });
   };

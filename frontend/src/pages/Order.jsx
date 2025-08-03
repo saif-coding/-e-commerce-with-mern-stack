@@ -33,33 +33,34 @@ function Order() {
               <div className=" bg-gray-200 p-6">
                 <h1>
                   <span className=" font-bold">Name:</span>{" "}
-                  {order.address.fullName}
+                  {order?.address?.fullName}
                 </h1>
                 <h1>
                   <span className=" font-bold">Phone:</span>{" "}
-                  {order.address.phone}
+                  {order?.address?.phone}
                 </h1>
                 <h1>
                   <span className=" font-bold">Email:</span>{" "}
-                  {order.address.email}
+                  {order?.address?.email}
                 </h1>
                 <h1>
                   <span className=" font-bold">Street:</span>{" "}
-                  {order.address.street}
+                  {order?.address?.street}
                 </h1>
                 <h1>
-                  <span className=" font-bold">City:</span> {order.address.city}
+                  <span className=" font-bold">City:</span>{" "}
+                  {order?.address?.city}
                 </h1>
                 <h1>
                   <span className=" font-bold">State:</span>{" "}
-                  {order.address.state}
+                  {order?.address?.state}
                 </h1>
                 <h1>
-                  <span className=" font-bold">Zip:</span> {order.address.zip}
+                  <span className=" font-bold">Zip:</span> {order?.address?.zip}
                 </h1>
                 <h1>
                   <span className=" font-bold">Country:</span>{" "}
-                  {order.address.country}
+                  {order?.address?.country}
                 </h1>
               </div>
             </p>

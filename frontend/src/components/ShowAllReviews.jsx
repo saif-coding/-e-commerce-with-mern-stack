@@ -39,13 +39,13 @@ function ShowAllReviews({ slug, id }) {
                 <div className="flex items-center gap-4">
                   {/* User Avatar */}
                   <div className="w-12 h-12 rounded-full bg-red-100 flex items-center justify-center text-xl font-semibold text-red-600">
-                    {item.userId.name.slice(0, 1) || "M"}
+                    {item?.userId?.name?.slice(0, 1) || "M"}
                   </div>
 
                   {/* User Info */}
                   <div>
                     <h3 className="font-semibold text-gray-800">
-                      {item.userId.name || "Mike Zee"}
+                      {item?.userId?.name || "Mike Zee"}
                     </h3>
                     <div className="text-sm text-gray-500 flex items-center gap-1">
                       United States

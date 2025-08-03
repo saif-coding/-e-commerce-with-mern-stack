@@ -27,8 +27,8 @@ function Navbar() {
       <div className="hidden sm:flex items-center gap-8">
         <Link to={"/"}>Home</Link>
         <Link to={"/all-products"}>All Products</Link>
-        <a href="#">About</a>
-        <a href="#">Contact</a>
+        {/* <a href="#">About</a>
+        <a href="#">Contact</a> */}
         {location.pathname === "/all-products" && (
           <div className="hidden lg:flex items-center text-sm gap-2 border border-gray-300 px-3 rounded-full">
             <input
@@ -86,7 +86,7 @@ function Navbar() {
           </div>
         </Link>
 
-        {singleUser._id ? (
+        {singleUser.role === "admin" ? (
           <Link to={"/dashboard"}>
             <button className="cursor-pointer px-5 py-1 bg-indigo-500 hover:bg-indigo-600 transition text-white rounded-full">
               Dashboard
@@ -107,9 +107,11 @@ function Navbar() {
           </>
         )}
 
-        <div className="cursor-pointer flex items-center justify-center w-10 h-10 bg-gray-500 hover:bg-gray-600 transition rounded-full">
-          <ProfileMenu />
-        </div>
+        {singleUser._id && (
+          <div className="cursor-pointer flex items-center justify-center w-10 h-10 bg-gray-500 hover:bg-gray-600 transition rounded-full">
+            <ProfileMenu />
+          </div>
+        )}
       </div>
 
       <button

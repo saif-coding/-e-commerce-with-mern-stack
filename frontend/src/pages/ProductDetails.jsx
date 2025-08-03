@@ -8,7 +8,10 @@ import { ProductContext } from "../context/ProductContext";
 import ShowAllReviews from "../components/ShowAllReviews";
 import Loading from "../components/Loading";
 import { toast } from "react-toastify";
+import { UserContext } from "../context/UserContext";
 function ProductDetails() {
+  const { singleUser } = useContext(UserContext);
+  console.log(singleUser, "pd");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const product = {
@@ -179,13 +182,16 @@ function ProductDetails() {
           {showPopup && <Reviews id={productId} popup={setShowPopup} />}
         </div>
       </div>
-      <button
-        onClick={() => setShowPopup(!showPopup)}
-        type="button"
-        class="px-4 py-1.5 mb-3 ml-20 capitalize active:scale-95 transition bg-blue-500 rounded text-white shadow-lg shadow-blue-500/30 text-sm font-medium"
-      >
-        Write review
-      </button>
+      {singleUser.length !== 0 && (
+        <button
+          onClick={() => setShowPopup(!showPopup)}
+          type="button"
+          class="px-4 py-1.5 mb-3 ml-20 capitalize active:scale-95 transition bg-blue-500 rounded text-white shadow-lg shadow-blue-500/30 text-sm font-medium"
+        >
+          Write review
+        </button>
+      )}
+
       <ShowAllReviews slug={slug} id={productId} />
       <ReletedProduct cate={singleProduct.category} />
     </>
